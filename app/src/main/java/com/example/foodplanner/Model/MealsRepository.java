@@ -11,6 +11,9 @@ public interface MealsRepository {
 
     void getRandomMeal(NetworkCallBack networkCallBack);
 
+    void getCategories(NetworkCallBack networkCallBack);
+
+    void getMealsFromCategories (NetworkCallBack networkCallBack , String categoryName);
 
 
 }

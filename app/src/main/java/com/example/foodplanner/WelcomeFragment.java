@@ -37,6 +37,12 @@ public class WelcomeFragment extends Fragment {
         btn_google = view.findViewById(R.id.btn_welcome_google);
         btn_facebook = view.findViewById(R.id.btn_welcome_facebook);
         btn_mail = view.findViewById(R.id.btn_welcome_email);
+        /*
+        HomeFragment homeFragment = new HomeFragment();
+        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transFragment = fragManager.beginTransaction();
+        transFragment.add(R.id.homeFragment, homeFragment, "DYNAMIC Fragment");
+        transFragment.commit();*/
 
         btn_mail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,8 +61,8 @@ public class WelcomeFragment extends Fragment {
         btn_guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* HomeFragment homeFragment = new HomeFragment();
-                FragmentManager fragManager = getSupportFragmentManager();
+                /*HomeFragment homeFragment = new HomeFragment();
+                FragmentManager fragManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transFragment = fragManager.beginTransaction();
                 transFragment.add(R.id.homeFragment, homeFragment, "DYNAMIC");
                 transFragment.commit();*/

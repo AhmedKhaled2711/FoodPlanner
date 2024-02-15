@@ -1,21 +1,13 @@
 package com.example.foodplanner.home.Presenter;
 
-import android.util.Log;
-
+import com.example.foodplanner.Model.Category;
 import com.example.foodplanner.Model.Meal;
-import com.example.foodplanner.Model.MealResponse;
 import com.example.foodplanner.Model.MealsRepository;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
 import com.example.foodplanner.NetworkCall.NetworkCallBack;
 import com.example.foodplanner.home.View.HomeView;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
 
 public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
     HomeView homeView ;
@@ -37,6 +29,16 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
     }
 
     @Override
+    public void onSuccess_getCategories(List<Category> categories) {
+        homeView.showCategories(categories);
+    }
+///////////////////////////////////////////////////////////////
+    @Override
+    public void onSuccessMealFromCategories(List<Meal> meals) {
+
+    }
+
+    @Override
     public void onFail(String err) {
 
     }
@@ -44,6 +46,16 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
     @Override
     public void getRandomMealPresenter() {
         mealsRepository.getRandomMeal(this);
+    }
+
+    @Override
+    public void getCategoriesPresenter() {
+        mealsRepository.getCategories(this);
+    }
+
+    @Override
+    public void getMealsFromCategoriesPresenter(String category) {
+        mealsRepository.getMealsFromCategories(this ,category);
     }
 
 

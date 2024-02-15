@@ -31,4 +31,14 @@ public class MealsRepositoryImpl implements MealsRepository {
     public void getRandomMeal(NetworkCallBack networkCallBack) {
         mealsRemoteDataSource.makeNetworkCall(networkCallBack);
     }
+
+    @Override
+    public void getCategories(NetworkCallBack networkCallBack) {
+        mealsRemoteDataSource.makeNetworkCall_getCategories(networkCallBack);
+    }
+
+    @Override
+    public void getMealsFromCategories(NetworkCallBack networkCallBack , String categoryName) {
+        mealsRemoteDataSource.makeNetworkCall_getMealFromCategories(networkCallBack , categoryName);
+    }
 }

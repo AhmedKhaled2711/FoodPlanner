@@ -2,6 +2,7 @@ package com.example.foodplanner.NetworkCall;
 
 import android.util.Log;
 
+import com.example.foodplanner.Model.CategoryResponse;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealResponse;
 
@@ -56,6 +57,55 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                     networkCallBack.onFail(t.getMessage());
                 }
             });
+
+    }
+
+    @Override
+    public void makeNetworkCall_getCategories(NetworkCallBack networkCallBack) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(JSON_URL_RETROFIT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+        MealService mealService = retrofit.create(MealService.class);
+       mealService.getCategories().enqueue(new Callback<CategoryResponse>() {
+           @Override
+           public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+               Log.i("TAG", "onResponse: ");
+               if (response.isSuccessful()) {
+                   Log.i("TAG", "response.isSuccessful: ");
+                   networkCallBack.onSuccess_getCategories(response.body().categories);
+               }
+           }
+           @Override
+           public void onFailure(Call<CategoryResponse> call, Throwable t) {
+               Log.i("TAG", "onFailure: ");
+               networkCallBack.onFail(t.getMessage());
+           }
+       });
+    }
+
+    @Override
+    public void makeNetworkCall_getMealFromCategories(NetworkCallBack networkCallBack , String categoryName) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(JSON_URL_RETROFIT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+        MealService mealService = retrofit.create(MealService.class);
+        mealService.getMealByCategory(categoryName).enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                Log.i("TAG", "response.isSuccessful: Last changed "+categoryName);
+                networkCallBack.onSuccessMealFromCategories(response.body().meals);
+            }
+
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                Log.i("TAG", "onFailure: ");
+                networkCallBack.onFail(t.getMessage());
+            }
+        });
 
     }
 }
