@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FoodPlanner</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="guest">GUEST</string>
+    <string name="signIn"><u>Sign In</u>
+    </string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="e_mail">E-mail</string>
+    <string name="login"><u>Login</u></string>
+    <string name="login_header">Login</string>
+    <string name="sign_up_u"><u> Sign Up </u></string>
 </resources>
