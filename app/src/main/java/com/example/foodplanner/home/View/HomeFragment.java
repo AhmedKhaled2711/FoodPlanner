@@ -92,12 +92,7 @@ public class HomeFragment extends Fragment implements OnAddClickListener, HomeVi
 
             @Override
             public void onClick(View v) {
-                if (onAddClickListener != null) {
-                    onAddClickListener.onFavoriteClick(randomMeal);
-                } else {
-                    Log.e("TAG", "onAddClickListener is null");
-                    // Handle the case where onAddClickListener is null
-                }
+                onFavoriteClick(randomMeal);
 
             }
         });
