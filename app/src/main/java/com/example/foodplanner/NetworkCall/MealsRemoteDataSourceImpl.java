@@ -87,6 +87,7 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
 
     @Override
     public void makeNetworkCall_getMealFromCategories(NetworkCallBack networkCallBack , String categoryName) {
+        Log.i("TAG", "response.isSuccessful: Last categoryName "+categoryName);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -96,8 +97,9 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
         mealService.getMealByCategory(categoryName).enqueue(new Callback<MealResponse>() {
             @Override
             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                Log.i("TAG", "response.isSuccessful: Last changed "+categoryName);
+                Log.i("TAG", "response.isSuccessful: ");
                 networkCallBack.onSuccessMealFromCategories(response.body().meals);
+
             }
 
             @Override

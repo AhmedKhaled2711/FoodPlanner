@@ -75,8 +75,27 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
 
     @Override
     public void showRandomMeal(List<Meal> meals) {
-        tvRandomMeal.setText(meals.get(0).getStrMeal());
-        Glide.with(this).load(meals.get(0).getStrMealThumb()).into(ivRandomMeal);
+        Meal randomMeal = meals.get(0);
+        tvRandomMeal.setText(randomMeal.getStrMeal());
+        Glide.with(this).load(randomMeal.getStrMealThumb()).into(ivRandomMeal);
+        tvRandomMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                HomeFragmentDirections.ActionHomeFragmentToMealFragment action =
+                        HomeFragmentDirections.actionHomeFragmentToMealFragment(randomMeal);
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
+
+        ivRandomMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeFragmentDirections.ActionHomeFragmentToMealFragment action =
+                        HomeFragmentDirections.actionHomeFragmentToMealFragment(randomMeal);
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
 
     }
 
@@ -89,13 +108,18 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
 
     @Override
     public void onItemClick(String item) {
-        Toast.makeText(getActivity(), "YA RAB "+item, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "YA RAB "+item, Toast.LENGTH_SHORT).show();
 
         //to send Data
         com.example.foodplanner.home.View.HomeFragmentDirections.ActionHomeFragmentToCategoriesFragment action =
                 HomeFragmentDirections.actionHomeFragmentToCategoriesFragment(item);
-        homePresenter.getMealsFromCategoriesPresenter(item);
+       // homePresenter.getMealsFromCategoriesPresenter(item);
         Navigation.findNavController(getView()).navigate(action);
+
+    }
+
+    public void sendMeal(Meal meal)
+    {
 
     }
 }

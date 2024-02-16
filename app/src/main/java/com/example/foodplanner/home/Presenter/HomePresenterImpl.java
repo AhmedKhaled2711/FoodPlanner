@@ -32,11 +32,12 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
     public void onSuccess_getCategories(List<Category> categories) {
         homeView.showCategories(categories);
     }
-///////////////////////////////////////////////////////////////
+
     @Override
     public void onSuccessMealFromCategories(List<Meal> meals) {
 
     }
+
 
     @Override
     public void onFail(String err) {
@@ -51,11 +52,6 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
     @Override
     public void getCategoriesPresenter() {
         mealsRepository.getCategories(this);
-    }
-
-    @Override
-    public void getMealsFromCategoriesPresenter(String category) {
-        mealsRepository.getMealsFromCategories(this ,category);
     }
 
 
