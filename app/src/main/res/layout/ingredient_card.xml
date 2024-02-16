@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    android:padding="5dp"
+    android:layout_margin="5dp">
+
+
+    <ImageView
+        android:id="@+id/iv_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/tv_ingredient_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tv_ingredient_measure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textStyle="italic"
+        android:padding="5dp"/>
+</LinearLayout>

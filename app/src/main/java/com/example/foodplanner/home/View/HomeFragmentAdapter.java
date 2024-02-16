@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.foodplanner.Model.Category;
 import com.example.foodplanner.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapter.MyViewHolder> {
@@ -23,11 +24,22 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
     List<Category> categoryList ;
     private OnItemClickListener mListener;
 
-    public HomeFragmentAdapter (Context context , List <Category> categories)
+    private OnAddClickListener onAddClickListener ;
+
+    public HomeFragmentAdapter (Context context , List <Category> categories )
     {
         this.categoryList = categories ;
         this.context = context ;
     }
+
+    public HomeFragmentAdapter (Context context , List <Category> categories , OnAddClickListener onAddClickListener )
+    {
+        this.categoryList = categories ;
+        this.context = context ;
+        this.onAddClickListener = onAddClickListener ;
+        categories = new ArrayList<>();
+    }
+
 
     public void setMyList(List<Category> myList){
         this.categoryList = myList ;

@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_plan" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.foodplanner.FavoriteFragment"
+        android:name="com.example.foodplanner.Favorite.View.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment

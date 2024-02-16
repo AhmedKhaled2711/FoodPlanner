@@ -43,4 +43,14 @@ public class CategoriesPresenterImpl implements CategoriesPresenter , NetworkCal
     public void getMealsFromCategoriesPresenter(String category) {
         mealsRepository.getMealsFromCategories(this ,category);
     }
+
+    @Override
+    public void addFavMeal(Meal meal) {
+        mealsRepository.insertMeal(meal);
+    }
+
+    @Override
+    public void addPlanMeal(Meal meal) {
+
+    }
 }

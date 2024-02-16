@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.foodplanner.DataBase.MealsLocalDataSourceImpl;
+import com.example.foodplanner.LoginFragment;
 import com.example.foodplanner.Model.Category;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment implements HomeView , HomeFragmentAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment implements OnAddClickListener, HomeView , HomeFragmentAdapter.OnItemClickListener {
     Meal randomMeal ;
     ImageView ivRandomMeal ;
     TextView tvRandomMeal ;
@@ -39,6 +42,7 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
     RecyclerView recyclerView;
     HomeFragmentAdapter homeFragmentAdapter ;
     LinearLayoutManager linearManager;
+    OnAddClickListener onAddClickListener ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,11 +57,15 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
         super.onViewCreated(view, savedInstanceState);
         ivRandomMeal = view.findViewById(R.id.iv_card_meal);
         tvRandomMeal = view.findViewById(R.id.tv_card_meal);
-
+        btnFavorite = view.findViewById(R.id.btn_Card_save);
         recyclerView = view.findViewById(R.id.rv_home_categories);
-
+        /*
         homePresenter = new HomePresenterImpl(this , MealsRepositoryImpl.getInstance
-                (MealsRemoteDataSourceImpl.getInstance()));
+                (MealsRemoteDataSourceImpl.getInstance()));*/
+
+        homePresenter = new HomePresenterImpl(this ,
+                MealsRepositoryImpl.getInstance(MealsRemoteDataSourceImpl.getInstance() ,
+                                        MealsLocalDataSourceImpl.getInstance(getContext())));
         homePresenter.getRandomMealPresenter();
         homePresenter.getCategoriesPresenter();
 
@@ -71,6 +79,7 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
         homeFragmentAdapter.setOnItemClickListener(this);
 
 
+
     }
 
     @Override
@@ -78,6 +87,20 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
         Meal randomMeal = meals.get(0);
         tvRandomMeal.setText(randomMeal.getStrMeal());
         Glide.with(this).load(randomMeal.getStrMealThumb()).into(ivRandomMeal);
+
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (onAddClickListener != null) {
+                    onAddClickListener.onFavoriteClick(randomMeal);
+                } else {
+                    Log.e("TAG", "onAddClickListener is null");
+                    // Handle the case where onAddClickListener is null
+                }
+
+            }
+        });
         tvRandomMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,13 +136,20 @@ public class HomeFragment extends Fragment implements HomeView , HomeFragmentAda
         //to send Data
         com.example.foodplanner.home.View.HomeFragmentDirections.ActionHomeFragmentToCategoriesFragment action =
                 HomeFragmentDirections.actionHomeFragmentToCategoriesFragment(item);
-       // homePresenter.getMealsFromCategoriesPresenter(item);
         Navigation.findNavController(getView()).navigate(action);
 
     }
 
-    public void sendMeal(Meal meal)
-    {
+
+    @Override
+    public void onFavoriteClick(Meal meal) {
+        homePresenter.addFavMeal(meal);
+    }
+
+    @Override
+    public void onPlanClick(Meal meal) {
 
     }
+
+
 }

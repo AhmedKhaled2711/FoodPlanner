@@ -83,12 +83,12 @@
 
                     <Button
                         android:id="@+id/btn_Card_plan"
-                        android:layout_width="110dp"
+                        android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="35dp"
+                        android:layout_marginStart="20dp"
                         android:backgroundTint="@color/backgroundColor"
                         android:text="Plan"
-                        android:textSize="15sp"
+                        android:textSize="20sp"
                         android:textStyle="bold|italic"
                         app:layout_constraintBottom_toBottomOf="@+id/btn_Card_save"
                         app:layout_constraintEnd_toEndOf="@+id/tv_card_meal"
@@ -99,14 +99,13 @@
 
                     <Button
                         android:id="@+id/btn_Card_save"
-                        android:layout_width="110dp"
+                        android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="30dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="10dp"
                         android:backgroundTint="@color/backgroundColor"
                         android:text="Favorite"
-                        android:textSize="15sp"
+                        android:textSize="20sp"
                         android:textStyle="bold|italic"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tv_card_meal"

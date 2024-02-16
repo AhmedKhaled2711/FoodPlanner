@@ -1,14 +1,20 @@
 package com.example.foodplanner.Model;
 
+import androidx.lifecycle.LiveData;
+
+import com.example.foodplanner.DataBase.MealsLocalDataSource;
 import com.example.foodplanner.NetworkCall.MealsRemoteDataSource;
 import com.example.foodplanner.NetworkCall.MealsRemoteDataSourceImpl;
 import com.example.foodplanner.NetworkCall.NetworkCallBack;
+
+import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 
 public class MealsRepositoryImpl implements MealsRepository {
 
     MealsRemoteDataSource mealsRemoteDataSource ;
+    MealsLocalDataSource mealsLocalDataSource ;
 
     static MealsRepositoryImpl mealsRepositoryImpl = null ;
 
@@ -20,6 +26,13 @@ public class MealsRepositoryImpl implements MealsRepository {
 
     }
 
+    private MealsRepositoryImpl(MealsRemoteDataSource mealsRemoteDataSource,
+                                MealsLocalDataSource mealsLocalDataSource)
+    {
+        this.mealsRemoteDataSource = mealsRemoteDataSource;
+        this.mealsLocalDataSource = mealsLocalDataSource ;
+    }
+
     public static MealsRepositoryImpl getInstance(MealsRemoteDataSource mealsRemoteDataSource){
         if(mealsRepositoryImpl ==null){
             mealsRepositoryImpl = new MealsRepositoryImpl(
@@ -27,6 +40,16 @@ public class MealsRepositoryImpl implements MealsRepository {
         }
         return mealsRepositoryImpl;
     }
+
+    public static MealsRepositoryImpl getInstance(MealsRemoteDataSource mealsRemoteDataSource,
+                                                  MealsLocalDataSource mealsLocalDataSource){
+        if(mealsRepositoryImpl ==null){
+            mealsRepositoryImpl = new MealsRepositoryImpl(
+                    mealsRemoteDataSource ,mealsLocalDataSource);
+        }
+        return mealsRepositoryImpl;
+    }
+
     @Override
     public void getRandomMeal(NetworkCallBack networkCallBack) {
         mealsRemoteDataSource.makeNetworkCall(networkCallBack);
@@ -40,5 +63,20 @@ public class MealsRepositoryImpl implements MealsRepository {
     @Override
     public void getMealsFromCategories(NetworkCallBack networkCallBack , String categoryName) {
         mealsRemoteDataSource.makeNetworkCall_getMealFromCategories(networkCallBack , categoryName);
+    }
+
+    @Override
+    public void insertMeal(Meal meal) {
+        mealsLocalDataSource.insert(meal);
+    }
+
+    @Override
+    public LiveData<List<Meal>> getStoredMeals() {
+        return mealsLocalDataSource.getAllMealsData();
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) {
+        mealsLocalDataSource.delete(meal);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,10 +23,12 @@ public class CategoriesFragmentAdapter extends RecyclerView.Adapter<CategoriesFr
 
     Context context;
     List<Meal> mealList ;
+    OnAddClickListenerCategories onAddClickListenerCategories ;
 
-    public CategoriesFragmentAdapter(Context context , List <Meal> meals){
+    public CategoriesFragmentAdapter(Context context , List <Meal> meals , OnAddClickListenerCategories addClickListenerCategories){
         this.context = context ;
         this.mealList = meals ;
+        this.onAddClickListenerCategories = addClickListenerCategories;
     }
 
     public void setMyList(List<Meal> myList){
@@ -46,6 +49,12 @@ public class CategoriesFragmentAdapter extends RecyclerView.Adapter<CategoriesFr
         Meal meal = mealList.get(position);
         holder.titleMeal.setText(meal.getStrMeal());
         Glide.with(context).load(meal.getStrMealThumb()).into(holder.iv_Meal);
+        holder.btn_Fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onAddClickListenerCategories.onFavoriteClick(meal);
+            }
+        });
     }
 
     @Override
@@ -56,10 +65,14 @@ public class CategoriesFragmentAdapter extends RecyclerView.Adapter<CategoriesFr
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView titleMeal;
         private ImageView iv_Meal ;
+
+        Button btn_Fav , btn_Plan ;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             titleMeal = itemView.findViewById(R.id.tv_card_meal);
             iv_Meal = itemView.findViewById(R.id.iv_card_meal);
+            btn_Fav = itemView.findViewById(R.id.btn_Card_save);
+            btn_Plan = itemView.findViewById(R.id.btn_Card_plan);
         }
     }
 }

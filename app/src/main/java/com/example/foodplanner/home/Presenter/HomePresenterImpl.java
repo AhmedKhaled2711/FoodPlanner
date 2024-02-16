@@ -54,6 +54,16 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
         mealsRepository.getCategories(this);
     }
 
+    @Override
+    public void addFavMeal(Meal meal) {
+        mealsRepository.insertMeal(meal);
+    }
+
+    @Override
+    public void addPlanMeal(Meal meal) {
+
+    }
+
 
 
 /*

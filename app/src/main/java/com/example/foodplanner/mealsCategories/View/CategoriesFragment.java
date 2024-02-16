@@ -24,7 +24,7 @@ import com.example.foodplanner.mealsCategories.Presenter.CategoriesPresenterImpl
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesFragment extends Fragment implements CategoriesView {
+public class CategoriesFragment extends Fragment implements CategoriesView , OnAddClickListenerCategories {
     CategoriesPresenter categoriesPresenter ;
     String keyFromHome ;
     Toolbar toolbar;
@@ -60,7 +60,7 @@ public class CategoriesFragment extends Fragment implements CategoriesView {
 
         linearManager = new LinearLayoutManager(view.getContext());
         linearManager.setOrientation(LinearLayoutManager.VERTICAL);
-        categoriesFragmentAdapter = new CategoriesFragmentAdapter(view.getContext()  , new ArrayList<>() );
+        categoriesFragmentAdapter = new CategoriesFragmentAdapter(view.getContext()  , new ArrayList<>() , this);
         recyclerView.setLayoutManager(linearManager);
         recyclerView.setAdapter(categoriesFragmentAdapter);
 
@@ -71,5 +71,15 @@ public class CategoriesFragment extends Fragment implements CategoriesView {
     public void showMealsOfCategory(List<Meal> meals) {
         categoriesFragmentAdapter.setMyList(meals);
         categoriesFragmentAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFavoriteClick(Meal meal) {
+        categoriesPresenter.addFavMeal(meal);
+    }
+
+    @Override
+    public void onPlanClick(Meal meal) {
+
     }
 }
