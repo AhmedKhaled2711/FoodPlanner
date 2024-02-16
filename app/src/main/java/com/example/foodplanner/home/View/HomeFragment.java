@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment implements OnAddClickListener, HomeVi
             @Override
             public void onClick(View v) {
                 onFavoriteClick(randomMeal);
-
+                Toast.makeText(getContext(), randomMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();
             }
         });
         tvRandomMeal.setOnClickListener(new View.OnClickListener() {

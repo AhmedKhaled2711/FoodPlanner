@@ -9,4 +9,5 @@ public interface HomeView {
     public void showRandomMeal(List<Meal> meals);
 
     public  void showCategories(List<Category> categories);
+
 }

@@ -76,6 +76,8 @@ public class CategoriesFragment extends Fragment implements CategoriesView , OnA
     @Override
     public void onFavoriteClick(Meal meal) {
         categoriesPresenter.addFavMeal(meal);
+        Toast.makeText(getContext(),"Meal added successfully", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
