@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +42,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 
 public class SearchFragment extends Fragment implements SearchView {
-    EditText et_search ;
+    GridLayoutManager gridLayoutManagerCountry ;
 
     RecyclerView rv_Country ;
 
@@ -52,14 +53,15 @@ public class SearchFragment extends Fragment implements SearchView {
     SearchPresenter searchPresenter ;
     CountryAdapter countryAdapter ;
     CountryAdapter countryAdapterAfter ;
-    IngredientsAdapter ingredientsAdapter ;
+    IngredientsAdapter ingredientsAdapter  , ingredientsAdapterAfter;
     ChipGroup chipGroup ;
     Chip chipCountry ;
     TextView tv_country;
     TextView tv_ingredients;
     MaterialDivider divider ;
     EditText etSearch ;
-    List<Country> tempList ;
+    List<Country> tempListCountry ;
+    List<Ingredient> tempListIngredient;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,25 +128,60 @@ public class SearchFragment extends Fragment implements SearchView {
 
                                         }
                                     });
-                                }).debounce(2, TimeUnit.SECONDS)
+                                }).debounce(500, TimeUnit.MILLISECONDS)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(item -> {
-                                    List<Country> afterSearch =  tempList.stream()
+                                    List<Country> afterSearch =  tempListCountry.stream()
                                             .filter(country -> country.getStrArea().toLowerCase().startsWith(item.toString().toLowerCase())
                                                     || country.getStrArea().toLowerCase().contains(item.toString().toLowerCase()))
                                                     .collect(Collectors.toList());
 
 
-
                                     Log.i("TAG", "onCheckedChanged:  data filtered ");
                                     countryAdapterAfter = new CountryAdapter(getContext() , afterSearch);
-                                    //rv_Country.setLayoutManager(linearManager_Country);
+                                    gridLayoutManagerCountry = new GridLayoutManager(getContext() , 2);
+                                    gridLayoutManagerCountry.setOrientation(RecyclerView.VERTICAL);
                                     rv_Country.setAdapter(countryAdapterAfter);
+                                    rv_Country.setLayoutManager(gridLayoutManagerCountry);
                                 });
 
                     } else if (chip.getId() == R.id.chipIngredients) {
                         rv_Ingredient.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "press on chipIngredients", Toast.LENGTH_SHORT).show();
+                        Observable.create(i ->{
+                                    etSearch.addTextChangedListener(new TextWatcher() {
+                                        @Override
+                                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                        }
+
+                                        @Override
+                                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                            i.onNext(etSearch.getText().toString());
+                                        }
+
+                                        @Override
+                                        public void afterTextChanged(Editable s) {
+
+                                        }
+                                    });
+                                }).debounce(500, TimeUnit.MILLISECONDS)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(item -> {
+                                    List<Ingredient> afterSearch =  tempListIngredient.stream()
+                                            .filter(ingredient -> ingredient.getStrIngredient().toLowerCase().startsWith(item.toString().toLowerCase())
+                                                    || ingredient.getStrIngredient().toLowerCase().contains(item.toString().toLowerCase()))
+                                            .collect(Collectors.toList());
+
+
+                                    Log.i("TAG", "onCheckedChanged:  data filtered ");
+                                    ingredientsAdapterAfter = new IngredientsAdapter(getContext() , afterSearch);
+                                    gridLayoutManagerCountry = new GridLayoutManager(getContext() , 2);
+                                    gridLayoutManagerCountry.setOrientation(RecyclerView.VERTICAL);
+                                    rv_Ingredient.setAdapter(ingredientsAdapterAfter);
+                                    rv_Ingredient.setLayoutManager(gridLayoutManagerCountry);
+                                });
+
                     }
 
                 }
@@ -156,7 +193,7 @@ public class SearchFragment extends Fragment implements SearchView {
 
     @Override
     public void ShowCountries(List<Country> countryList) {
-        tempList = countryList ;
+        tempListCountry = countryList ;
         countryAdapter.setMyList(countryList);
         countryAdapter.notifyDataSetChanged();
 
@@ -165,6 +202,7 @@ public class SearchFragment extends Fragment implements SearchView {
 
     @Override
     public void ShowIngredients(List<Ingredient> ingredientList) {
+        tempListIngredient = ingredientList ;
         ingredientsAdapter.setMyList(ingredientList);
         ingredientsAdapter.notifyDataSetChanged();
 
