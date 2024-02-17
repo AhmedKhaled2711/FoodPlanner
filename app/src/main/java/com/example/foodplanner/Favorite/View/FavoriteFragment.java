@@ -55,6 +55,7 @@ public class FavoriteFragment extends Fragment implements FavoriteView , OnRemov
         favoriteAdapter = new FavoriteAdapter(getContext() , new ArrayList<>() , this);
         recyclerView.setLayoutManager(linearManager);
         recyclerView.setAdapter(favoriteAdapter);
+
         showData(favoritePresenter.getStoredDataDB());
 
     }

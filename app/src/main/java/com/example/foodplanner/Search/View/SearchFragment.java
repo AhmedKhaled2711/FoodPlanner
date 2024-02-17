@@ -172,8 +172,6 @@ public class SearchFragment extends Fragment implements SearchView {
                                             .filter(ingredient -> ingredient.getStrIngredient().toLowerCase().startsWith(item.toString().toLowerCase())
                                                     || ingredient.getStrIngredient().toLowerCase().contains(item.toString().toLowerCase()))
                                             .collect(Collectors.toList());
-
-
                                     Log.i("TAG", "onCheckedChanged:  data filtered ");
                                     ingredientsAdapterAfter = new IngredientsAdapter(getContext() , afterSearch);
                                     gridLayoutManagerCountry = new GridLayoutManager(getContext() , 2);
