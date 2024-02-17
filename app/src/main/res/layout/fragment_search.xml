@@ -21,12 +21,12 @@
             android:layout_height="150dp">
 
             <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rectangle"
                 android:drawableStart="@drawable/search"
@@ -50,7 +50,7 @@
                 app:chipSpacing="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchEditText">
+                app:layout_constraintTop_toBottomOf="@id/etSearch">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipCountry"
@@ -107,7 +107,7 @@
 
 
             <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider_search_1"
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/country_rv_search"
@@ -133,7 +133,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider_search_1" />
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredients_rv_search"
@@ -149,7 +149,7 @@
 
 
             <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider_search"
+                android:id="@+id/divider_second"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/ingredients_rv_search"

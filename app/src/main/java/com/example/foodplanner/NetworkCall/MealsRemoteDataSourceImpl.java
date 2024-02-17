@@ -132,13 +132,7 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
 
                 if (response.isSuccessful()) {
-                    CountryResponse countryResponse = response.body();
-                    if (countryResponse != null && countryResponse.getCountries() != null) {
-                        List<Country> countries = countryResponse.getCountries();
-                        Log.i("TAG", "onResponse: CountryResponse countryResponse = response.body(); " +countries.size());
-                    } else {
-                        Log.i("TAG", "onResponse: is null CountryResponse  ");
-                    }
+                    networkCallBack.onSuccessCountries(response.body().meals);
                 } else {
                     // Handle unsuccessful response (e.g., server error)
                 }
@@ -165,7 +159,7 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
             @Override
             public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {
                 Log.i("TAG", "response.isSuccessful: getIngredients ");
-                networkCallBack.onSuccessIngredients(response.body().ingredients);
+                networkCallBack.onSuccessIngredients(response.body().meals);
             }
 
             @Override

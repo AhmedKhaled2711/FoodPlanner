@@ -4,18 +4,22 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.foodplanner.Model.Ingredient;
 import com.example.foodplanner.R;
 
 import java.util.List;
 
-public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder> {
+import retrofit2.http.GET;
 
+public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder> {
+    private String urlImage = "https://www.themealdb.com/images/ingredients/";
     Context context;
     List<Ingredient> ingredientList ;
 
@@ -44,6 +48,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     public void onBindViewHolder(@NonNull IngredientsAdapter.ViewHolder holder, int position) {
         Ingredient ingredient = ingredientList.get(position);
         holder.tv_ingredientName.setText(ingredient.getStrIngredient());
+        Glide.with(context).load(urlImage+ingredient.getStrIngredient()+".png").into(holder.iv_ingredientImage);
     }
 
     @Override
@@ -53,9 +58,11 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_ingredientName ;
+        ImageView iv_ingredientImage ;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_ingredientName = itemView.findViewById(R.id.tv_ingredient_name);
+            tv_ingredientName = itemView.findViewById(R.id.tv_ingredient_card);
+            iv_ingredientImage = itemView.findViewById(R.id.iv_ingredient_card);
         }
     }
 }

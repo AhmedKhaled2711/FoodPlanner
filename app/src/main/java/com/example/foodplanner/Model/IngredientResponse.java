@@ -4,5 +4,5 @@ import java.util.List;
 
 public class IngredientResponse {
 
-    public List<Ingredient> ingredients ;
+    public List<Ingredient> meals ;
 }

@@ -4,12 +4,13 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="10dp"
+    android:layout_margin="10dp">
 
     <ImageView
         android:id="@+id/iv_ingredient_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:srcCompat="@drawable/android"
         android:layout_gravity="center"/>
 
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:textStyle="italic|bold"
         />
 </LinearLayout>
