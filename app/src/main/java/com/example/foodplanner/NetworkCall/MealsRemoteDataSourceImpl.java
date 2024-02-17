@@ -3,8 +3,13 @@ package com.example.foodplanner.NetworkCall;
 import android.util.Log;
 
 import com.example.foodplanner.Model.CategoryResponse;
+import com.example.foodplanner.Model.Country;
+import com.example.foodplanner.Model.CountryResponse;
+import com.example.foodplanner.Model.IngredientResponse;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealResponse;
+
+import java.util.List;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Observable;
@@ -31,14 +36,14 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
     }
 
     @Override
-    public void makeNetworkCall(NetworkCallBack networkCallBack) {
+    public Observable<MealResponse> makeNetworkCall() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
-        mealService.getRandomMeal().enqueue(new Callback<MealResponse>() {
+        /*mealService.getRandomMeal().enqueue(new Callback<MealResponse>() {
 
                 @Override
                 public void onResponse(Call<MealResponse> call,
@@ -56,7 +61,10 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                     Log.i("TAG", "onFailure: ");
                     networkCallBack.onFail(t.getMessage());
                 }
-            });
+            });*/
+        Observable <MealResponse> observable = mealService.getRandomMeal() ;
+
+        return  observable.subscribeOn(Schedulers.io());
 
     }
 
@@ -109,5 +117,62 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
             }
         });
 
+    }
+
+    @Override
+    public void makeNetworkCall_getCountries(NetworkCallBack networkCallBack) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(JSON_URL_RETROFIT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+        MealService mealService = retrofit.create(MealService.class);
+        mealService.getCountries().enqueue(new Callback<CountryResponse>() {
+            @Override
+            public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
+
+                if (response.isSuccessful()) {
+                    CountryResponse countryResponse = response.body();
+                    if (countryResponse != null && countryResponse.getCountries() != null) {
+                        List<Country> countries = countryResponse.getCountries();
+                        Log.i("TAG", "onResponse: CountryResponse countryResponse = response.body(); " +countries.size());
+                    } else {
+                        Log.i("TAG", "onResponse: is null CountryResponse  ");
+                    }
+                } else {
+                    // Handle unsuccessful response (e.g., server error)
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<CountryResponse> call, Throwable t) {
+                Log.i("TAG", "onFailure: ");
+                networkCallBack.onFail(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void makeNetworkCall_getIngredients(NetworkCallBack networkCallBack) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(JSON_URL_RETROFIT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+        MealService mealService = retrofit.create(MealService.class);
+        mealService.getIngredients().enqueue(new Callback<IngredientResponse>() {
+            @Override
+            public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {
+                Log.i("TAG", "response.isSuccessful: getIngredients ");
+                networkCallBack.onSuccessIngredients(response.body().ingredients);
+            }
+
+            @Override
+            public void onFailure(Call<IngredientResponse> call, Throwable t) {
+                Log.i("TAG", "onFailure: ");
+                networkCallBack.onFail(t.getMessage());
+            }
+        });
     }
 }

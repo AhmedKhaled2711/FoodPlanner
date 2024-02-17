@@ -49,10 +49,16 @@ public class MealsRepositoryImpl implements MealsRepository {
         }
         return mealsRepositoryImpl;
     }
-
+/*
     @Override
     public void getRandomMeal(NetworkCallBack networkCallBack) {
         mealsRemoteDataSource.makeNetworkCall(networkCallBack);
+    }*/
+
+
+    @Override
+    public Observable<MealResponse> getRandomMeal() {
+        return mealsRemoteDataSource.makeNetworkCall();
     }
 
     @Override
@@ -78,5 +84,15 @@ public class MealsRepositoryImpl implements MealsRepository {
     @Override
     public void deleteMeal(Meal meal) {
         mealsLocalDataSource.delete(meal);
+    }
+
+    @Override
+    public void getCountries(NetworkCallBack networkCallBack) {
+        mealsRemoteDataSource.makeNetworkCall_getCountries(networkCallBack);
+    }
+
+    @Override
+    public void getIngredients(NetworkCallBack networkCallBack) {
+        mealsRemoteDataSource.makeNetworkCall_getIngredients(networkCallBack);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.foodplanner.mealsCategories.Presenter;
 
 import com.example.foodplanner.Model.Category;
+import com.example.foodplanner.Model.Country;
+import com.example.foodplanner.Model.Ingredient;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealsRepository;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
@@ -32,6 +34,16 @@ public class CategoriesPresenterImpl implements CategoriesPresenter , NetworkCal
     @Override
     public void onSuccessMealFromCategories(List<Meal> meals) {
         categoriesView.showMealsOfCategory(meals);
+    }
+
+    @Override
+    public void onSuccessCountries(List<Country> countries) {
+
+    }
+
+    @Override
+    public void onSuccessIngredients(List<Ingredient> ingredients) {
+
     }
 
     @Override

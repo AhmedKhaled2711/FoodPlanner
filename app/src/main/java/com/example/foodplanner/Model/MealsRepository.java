@@ -11,8 +11,8 @@ import io.reactivex.rxjava3.core.Observable;
 
 public interface MealsRepository {
 
-    void getRandomMeal(NetworkCallBack networkCallBack);
-
+    //void getRandomMeal(NetworkCallBack networkCallBack);
+    Observable<MealResponse> getRandomMeal();
     void getCategories(NetworkCallBack networkCallBack);
 
     void getMealsFromCategories (NetworkCallBack networkCallBack , String categoryName);
@@ -21,6 +21,9 @@ public interface MealsRepository {
     LiveData<List<Meal>> getStoredMeals();
     public void deleteMeal(Meal meal);
 
+    void getCountries(NetworkCallBack networkCallBack);
+
+    void getIngredients(NetworkCallBack networkCallBack);
 
 
 }
