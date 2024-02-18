@@ -2,6 +2,7 @@ package com.example.foodplanner.SignUp.View;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -20,11 +21,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodplanner.Home;
 import com.example.foodplanner.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 
 public class SignUpFragment extends Fragment {
@@ -34,6 +42,7 @@ public class SignUpFragment extends Fragment {
     private Button btn_signUp , btn_google ,btn_facebook ;
     private FirebaseAuth firebaseAuth ;
     private TextView tv_login ;
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,5 +107,46 @@ public class SignUpFragment extends Fragment {
             }
         });
 
+        btn_google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = googleSignInClient.getSignInIntent();
+                startActivityForResult(intent, 100);
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+            if (signInAccountTask.isSuccessful()) {
+                String s = "Google sign in successful";
+                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                try {
+                    GoogleSignInAccount googleSignInAccount = signInAccountTask.getResult(ApiException.class);
+                    if (googleSignInAccount != null) {
+                        AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+                        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(requireActivity(),
+                                new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+
+                                            startActivity(new Intent(getActivity(), Home.class));
+                                            Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Login Unsuccessful", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

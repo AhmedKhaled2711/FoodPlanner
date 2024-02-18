@@ -36,8 +36,7 @@ import com.example.foodplanner.Search.Adapter.CountryAdapter;
 import com.example.foodplanner.Search.Adapter.IngredientsAdapter;
 import com.example.foodplanner.Search.Presenter.SearchPresenter;
 import com.example.foodplanner.Search.Presenter.SearchPresenterImpl;
-import com.example.foodplanner.SharedViewModel;
-import com.example.foodplanner.home.View.HomeFragmentDirections;
+import com.example.foodplanner.Model.SharedViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.divider.MaterialDivider;
@@ -136,7 +135,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
                 if (chip != null) {
 
                     if (chip.getId() == R.id.chipCountry) {
-                        Toast.makeText(getContext(), "press on chipCountry", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "press on Country", Toast.LENGTH_SHORT).show();
                         rv_Country.setVisibility(View.VISIBLE);
                         Observable.create(i ->{
                                     etSearch.addTextChangedListener(new TextWatcher() {
@@ -175,7 +174,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
 
                     } else if (chip.getId() == R.id.chipIngredients) {
                         rv_Ingredient.setVisibility(View.VISIBLE);
-                        Toast.makeText(getContext(), "press on chipIngredients", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "press on Ingredients", Toast.LENGTH_SHORT).show();
                         Observable.create(i ->{
                                     etSearch.addTextChangedListener(new TextWatcher() {
                                         @Override
@@ -198,7 +197,8 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
                                 .subscribe(item -> {
                                     List<Ingredient> afterSearch =  tempListIngredient.stream()
                                             .filter(ingredient -> ingredient.getStrIngredient().toLowerCase().startsWith(item.toString().toLowerCase())
-                                                    || ingredient.getStrIngredient().toLowerCase().contains(item.toString().toLowerCase()))
+                                                    )
+                                            //|| ingredient.getStrIngredient().toLowerCase().contains(item.toString().toLowerCase())
                                             .collect(Collectors.toList());
                                     Log.i("TAG", "onCheckedChanged:  data filtered ");
                                     ingredientsAdapterAfter = new IngredientsAdapter(getContext() , afterSearch);
@@ -209,7 +209,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
                                 });
 
                     } else if (chip.getId() == R.id.chipMeals) {
-                        Toast.makeText(getContext(), "press on chipMeals", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "press on Meals", Toast.LENGTH_SHORT).show();
                         cardView.setVisibility(View.VISIBLE);
                         etSearch.addTextChangedListener(new TextWatcher() {
                             @Override

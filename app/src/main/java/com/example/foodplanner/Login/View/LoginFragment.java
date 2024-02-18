@@ -1,6 +1,9 @@
 package com.example.foodplanner.Login.View;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,11 +42,15 @@ public class LoginFragment extends Fragment {
     TextView tv_signUp ;
     private FirebaseAuth firebaseAuth ;
     private GoogleSignInClient googleSignInClient;
+    public static final String SHARED_PREF = "sharedPrefs";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+         checkSP();
+         return view ;
     }
 
     @Override
@@ -55,6 +62,7 @@ public class LoginFragment extends Fragment {
         btn_google = view.findViewById(R.id.btn_login_google);
         btn_facebook = view.findViewById(R.id.btn_login_facebook);
         tv_signUp = view.findViewById(R.id.tv_login_signUp);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +119,8 @@ public class LoginFragment extends Fragment {
                 startActivityForResult(intent, 100);
             }
         });
+        //to check
+        //checkSP();
     }
 
     @Override
@@ -119,6 +129,9 @@ public class LoginFragment extends Fragment {
         if (requestCode == 100) {
             Task<GoogleSignInAccount> signInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             if (signInAccountTask.isSuccessful()) {
+
+
+
                 String s = "Google sign in successful";
                 Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
                 try {
@@ -130,6 +143,11 @@ public class LoginFragment extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
+
+                                            SharedPreferences sharedPreferences= getActivity().getSharedPreferences(SHARED_PREF,MODE_PRIVATE);
+                                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                                            editor.putString("name","true");
+                                            editor.apply();
 
                                             startActivity(new Intent(getActivity(), Home.class));
                                             Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
@@ -143,6 +161,17 @@ public class LoginFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private void checkSP() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        String isLoggedIn = sharedPreferences.getString("name", "");
+
+        if (isLoggedIn.equals("true")) {
+            Toast.makeText(getContext(), "Login Successfully", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), Home.class));
+            getActivity().finish();
         }
     }
 }

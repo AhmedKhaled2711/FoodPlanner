@@ -73,7 +73,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
             iv_meal = itemView.findViewById(R.id.iv_fav_meal);
             tv_mealName = itemView.findViewById(R.id.tv_fav_meal);
             btn_Remove = itemView.findViewById(R.id.btn_fav_delete);
-            btn_Plan = itemView.findViewById(R.id.btn_fav_plan);
+            //btn_Plan = itemView.findViewById(R.id.btn_fav_plan);
 
         }
     }

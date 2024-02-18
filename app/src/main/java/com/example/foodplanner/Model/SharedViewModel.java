@@ -1,4 +1,4 @@
-package com.example.foodplanner;
+package com.example.foodplanner.Model;
 
 // SharedViewModel.java
 import androidx.lifecycle.LiveData;
