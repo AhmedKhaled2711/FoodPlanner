@@ -11,8 +11,9 @@
 
     <ImageView
         android:id="@+id/iv_ingredient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
         app:srcCompat="@drawable/logo" />
 
     <TextView
@@ -20,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:layout_gravity="center"
         android:textStyle="bold"
         android:padding="5dp"
         android:text="TextView" />

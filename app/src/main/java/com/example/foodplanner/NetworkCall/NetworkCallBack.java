@@ -17,5 +17,7 @@ public interface NetworkCallBack {
     public void onSuccessCountries(List<Country> countries);
     public void onSuccessIngredients(List<Ingredient> ingredients);
 
+    public void onSuccessMealsFromCountry(List<Meal> mealList);
+    public void onSuccessSearchMeal(List<Meal> meals);
     public void onFail(String err);
 }

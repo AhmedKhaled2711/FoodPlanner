@@ -18,6 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.R;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,8 @@ public class MealFragment extends Fragment {
     RecyclerView rvIngredients ;
     TextView tvInstructions ;
     LinearLayoutManager linearManager;
+
+    YouTubePlayerView youTubePlayer ;
     MealFragmentIngredientsAdapter mealFragmentIngredientsAdapter ;
 
     @Override
@@ -48,6 +53,7 @@ public class MealFragment extends Fragment {
         rvIngredients = view.findViewById(R.id.rv_ingredients);
         tvNameMeal = view.findViewById(R.id.tv_mealName);
         tvInstructions = view.findViewById(R.id.tv_instructions);
+        youTubePlayer = view.findViewById(R.id.youtube_player);
 
         //to received data from home fragment
         receivedMeal =MealFragmentArgs.fromBundle(getArguments()).getMeal();
@@ -74,6 +80,16 @@ public class MealFragment extends Fragment {
         rvIngredients.setLayoutManager(linearManager);
         rvIngredients.setAdapter(mealFragmentIngredientsAdapter);
 
+        //play Video
+        youTubePlayer.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                String url = receivedMeal.getStrYoutube() ;
+                if (url != null && url.split("\\?v=").length > 1)
+                    url =  url.split("\\?v=")[1];
+                youTubePlayer.cueVideo(url , 0);
+            }
+        });
     }
 
     private List<String> getIngredients() {

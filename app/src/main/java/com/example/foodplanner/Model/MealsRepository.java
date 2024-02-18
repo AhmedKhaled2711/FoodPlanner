@@ -17,6 +17,9 @@ public interface MealsRepository {
 
     void getMealsFromCategories (NetworkCallBack networkCallBack , String categoryName);
 
+    void getMealsFromCountry (NetworkCallBack networkCallBack , String countryName);
+
+    void getMeal (NetworkCallBack networkCallBack , String mealName);
     void insertMeal(Meal meal);
     LiveData<List<Meal>> getStoredMeals();
     public void deleteMeal(Meal meal);

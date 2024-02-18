@@ -47,6 +47,16 @@ public class CategoriesPresenterImpl implements CategoriesPresenter , NetworkCal
     }
 
     @Override
+    public void onSuccessMealsFromCountry(List<Meal> meals) {
+
+    }
+
+    @Override
+    public void onSuccessSearchMeal(List<Meal> meals) {
+
+    }
+
+    @Override
     public void onFail(String err) {
 
     }

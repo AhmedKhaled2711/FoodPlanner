@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodplanner.Model.Country;
 import com.example.foodplanner.R;
+import com.example.foodplanner.home.View.HomeFragmentAdapter;
 
 import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder>{
 
+    private OnItemClickListenerCountry mListener;
     Context context;
     List<Country> countryList ;
 
@@ -44,6 +46,12 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
     public void onBindViewHolder(@NonNull CountryAdapter.ViewHolder holder, int position) {
         Country country = countryList.get(position);
         holder.tv_countryName.setText(country.getStrArea());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onItemClick(country.getStrArea()); // Pass the clicked item data
+            }
+        });
     }
 
     @Override
@@ -57,5 +65,13 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
             super(itemView);
             tv_countryName = itemView.findViewById(R.id.tv_country_card);
         }
+    }
+
+    public interface OnItemClickListenerCountry {
+        void onItemClick(String item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListenerCountry listener) {
+        mListener = listener;
     }
 }

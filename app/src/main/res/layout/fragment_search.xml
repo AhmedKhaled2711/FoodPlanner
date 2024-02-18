@@ -46,35 +46,49 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:singleSelection="true"
                 app:chipSpacing="8dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etSearch">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etSearch"
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipCountry"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/backgroundColor"
+                    android:text="Country"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    app:chipCornerRadius="5dp"
-                    android:text="country"
-                    />
+                    app:checkedIcon="@drawable/done"
+                    app:chipCornerRadius="5dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipIngredients"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/backgroundColor"
+                    android:text="Ingredients"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    app:chipCornerRadius="5dp"
-                    android:text="ingredients" />
+                    android:clickable="true"
+                    app:checkedIcon="@drawable/done"
+                    app:chipCornerRadius="5dp" />
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMeals"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/backgroundColor"
+                    android:text="Meals"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:clickable="true"
+                    app:checkedIcon="@drawable/done"
+                    app:chipCornerRadius="5dp" />
 
 
             </com.google.android.material.chip.ChipGroup>
@@ -102,23 +116,21 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/country_view"
-                 />
+                app:layout_constraintTop_toBottomOf="@+id/country_view" />
 
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/country_rv_search"
+                android:layout_marginLeft="70dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="70dp"
-                android:layout_marginLeft="70dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/country_rv_search"
 
                 />
-
 
 
             <TextView
@@ -144,22 +156,133 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients_view"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_view" />
 
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider_second"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/ingredients_rv_search"
+                android:layout_marginLeft="70dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="70dp"
-                android:layout_marginLeft="70dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ingredients_rv_search" />
 
+            <TextView
+                android:id="@+id/meal_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="10dp"
+                android:text="Meals"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_second" />
+
+
+
+
+            <androidx.cardview.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/cardView_show_meal_Search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="35dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/meal_view">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_card_meal"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:foreground="#3000"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/logo"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/tv_card_meal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_card_meal" />
+
+                    <Button
+                        android:id="@+id/btn_Card_plan"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="20dp"
+                        android:backgroundTint="@color/backgroundColor"
+                        android:text="Plan"
+                        android:textSize="20sp"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintBottom_toBottomOf="@+id/btn_Card_save"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_card_meal"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/btn_Card_save"
+                        app:layout_constraintTop_toTopOf="@+id/btn_Card_save"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <Button
+                        android:id="@+id/btn_Card_save"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:backgroundTint="@color/backgroundColor"
+                        android:text="Favorite"
+                        android:textSize="20sp"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tv_card_meal"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_card_meal"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView_show_meal_Search" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

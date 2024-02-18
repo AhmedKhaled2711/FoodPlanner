@@ -34,7 +34,7 @@ import java.util.List;
 
 
 public class HomeFragment extends Fragment implements OnAddClickListener, HomeView , HomeFragmentAdapter.OnItemClickListener {
-    Meal randomMeal ;
+
     ImageView ivRandomMeal ;
     TextView tvRandomMeal ;
     Button btnFavorite , btnPlan ;

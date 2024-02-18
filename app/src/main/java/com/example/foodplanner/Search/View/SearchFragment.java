@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,13 +17,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.foodplanner.DataBase.MealsLocalDataSourceImpl;
 import com.example.foodplanner.Model.Country;
 import com.example.foodplanner.Model.Ingredient;
+import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
 import com.example.foodplanner.NetworkCall.MealsRemoteDataSourceImpl;
 import com.example.foodplanner.R;
@@ -29,6 +35,7 @@ import com.example.foodplanner.Search.Adapter.CountryAdapter;
 import com.example.foodplanner.Search.Adapter.IngredientsAdapter;
 import com.example.foodplanner.Search.Presenter.SearchPresenter;
 import com.example.foodplanner.Search.Presenter.SearchPresenterImpl;
+import com.example.foodplanner.home.View.HomeFragmentDirections;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.divider.MaterialDivider;
@@ -41,7 +48,7 @@ import java.util.stream.Collectors;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 
-public class SearchFragment extends Fragment implements SearchView {
+public class SearchFragment extends Fragment implements SearchView , CountryAdapter.OnItemClickListenerCountry ,OnAddClickListenerSearch {
     GridLayoutManager gridLayoutManagerCountry ;
 
     RecyclerView rv_Country ;
@@ -55,10 +62,13 @@ public class SearchFragment extends Fragment implements SearchView {
     CountryAdapter countryAdapterAfter ;
     IngredientsAdapter ingredientsAdapter  , ingredientsAdapterAfter;
     ChipGroup chipGroup ;
-    Chip chipCountry ;
+    CardView cardView ;
+    Chip chipCountry , chipMeals ;
+    Button btnFavorite ;
     TextView tv_country;
-    TextView tv_ingredients;
-    MaterialDivider divider ;
+    ImageView iv_card_meal ;
+    TextView tv_ingredients , meal_view , tv_card_meal;
+    MaterialDivider divider , divider_second ;
     EditText etSearch ;
     List<Country> tempListCountry ;
     List<Ingredient> tempListIngredient;
@@ -80,17 +90,28 @@ public class SearchFragment extends Fragment implements SearchView {
         tv_ingredients = view.findViewById(R.id.ingredients_view);
         divider = view.findViewById(R.id.divider);
         etSearch = view.findViewById(R.id.etSearch);
+        cardView = view.findViewById(R.id.cardView_show_meal_Search);
+        divider_second = view.findViewById(R.id.divider_second);
+        cardView = view.findViewById(R.id.cardView_show_meal_Search);
+        meal_view = view.findViewById(R.id.meal_view);
+        iv_card_meal =  view.findViewById(R.id.iv_card_meal);
+        tv_card_meal =  view.findViewById(R.id.tv_card_meal);
+        btnFavorite = view.findViewById(R.id.btn_Card_save);
+
 
         searchPresenter = new SearchPresenterImpl(MealsRepositoryImpl.getInstance(MealsRemoteDataSourceImpl.getInstance() ,
                         MealsLocalDataSourceImpl.getInstance(getContext())) , this) ;
 
         searchPresenter.getCountriesPresenter();
         searchPresenter.getIngredientsPresenter();
+        searchPresenter.getMealPresenter(etSearch.getText().toString());
+
 
         linearManager_Country = new LinearLayoutManager(view.getContext());
         linearManager_Country.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         countryAdapter = new CountryAdapter(view.getContext() , new ArrayList<>());
+        countryAdapter.setOnItemClickListener(this);
         rv_Country.setLayoutManager(linearManager_Country);
         rv_Country.setAdapter(countryAdapter);
 
@@ -102,12 +123,14 @@ public class SearchFragment extends Fragment implements SearchView {
         rv_Ingredient.setAdapter(ingredientsAdapter);
 
 
+
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, int checkedId) {
                 Chip chip = view.findViewById(checkedId);
                 hideAll();
                 if (chip != null) {
+
                     if (chip.getId() == R.id.chipCountry) {
                         Toast.makeText(getContext(), "press on chipCountry", Toast.LENGTH_SHORT).show();
                         rv_Country.setVisibility(View.VISIBLE);
@@ -141,6 +164,7 @@ public class SearchFragment extends Fragment implements SearchView {
                                     countryAdapterAfter = new CountryAdapter(getContext() , afterSearch);
                                     gridLayoutManagerCountry = new GridLayoutManager(getContext() , 2);
                                     gridLayoutManagerCountry.setOrientation(RecyclerView.VERTICAL);
+                                    //countryAdapterAfter.setOnItemClickListener(this);
                                     rv_Country.setAdapter(countryAdapterAfter);
                                     rv_Country.setLayoutManager(gridLayoutManagerCountry);
                                 });
@@ -180,11 +204,33 @@ public class SearchFragment extends Fragment implements SearchView {
                                     rv_Ingredient.setLayoutManager(gridLayoutManagerCountry);
                                 });
 
+                    } else if (chip.getId() == R.id.chipMeals) {
+                        Toast.makeText(getContext(), "press on chipMeals", Toast.LENGTH_SHORT).show();
+                        cardView.setVisibility(View.VISIBLE);
+                        etSearch.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                String searchText = s.toString().toLowerCase();
+                                searchPresenter.getMealPresenter(searchText);
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
                     }
 
                 }
             }
         });
+
 
 
     }
@@ -206,11 +252,50 @@ public class SearchFragment extends Fragment implements SearchView {
 
     }
 
+    @Override
+    public void showMeal(List<Meal> meals) {
+        Meal serachMeal = meals.get(0);
+        tv_card_meal.setText(serachMeal.getStrMeal());
+        Glide.with(this).load(serachMeal.getStrMealThumb()).into(iv_card_meal);
+
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFavoriteClick(serachMeal);
+                Toast.makeText(getContext(), serachMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     private void hideAll() {
         rv_Country.setVisibility(View.GONE);
         rv_Ingredient.setVisibility(View.GONE);
         tv_country.setVisibility(View.GONE);
         tv_ingredients.setVisibility(View.GONE);
         divider.setVisibility(View.GONE);
+        divider_second.setVisibility(View.GONE);
+        cardView.setVisibility(View.GONE);
+        meal_view.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onItemClick(String item) {
+        Toast.makeText(getActivity(), "YA RAB "+item, Toast.LENGTH_SHORT).show();
+
+        SearchFragmentDirections.ActionSearchFragmentToMealsOfCountery action =
+                SearchFragmentDirections.actionSearchFragmentToMealsOfCountery(item);
+        Navigation.findNavController(getView()).navigate(action);
+
+    }
+
+    @Override
+    public void onFavoriteClick(Meal meal) {
+        searchPresenter.addFavMeal(meal);
+    }
+
+    @Override
+    public void onPlanClick(Meal meal) {
+
     }
 }

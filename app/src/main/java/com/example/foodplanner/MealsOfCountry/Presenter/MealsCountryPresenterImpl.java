@@ -1,49 +1,32 @@
-package com.example.foodplanner.Search.Presenter;
+package com.example.foodplanner.MealsOfCountry.Presenter;
 
+import com.example.foodplanner.MealsOfCountry.View.MealsCountryView;
 import com.example.foodplanner.Model.Category;
 import com.example.foodplanner.Model.Country;
 import com.example.foodplanner.Model.Ingredient;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealsRepository;
 import com.example.foodplanner.NetworkCall.NetworkCallBack;
-import com.example.foodplanner.Search.View.SearchView;
 
 import java.util.List;
 
-public class SearchPresenterImpl implements  SearchPresenter , NetworkCallBack  {
-
+public class MealsCountryPresenterImpl implements  MealsCountryPresenter , NetworkCallBack {
     MealsRepository mealsRepository ;
-    SearchView searchView ;
+    MealsCountryView mealsCountryView ;
 
-    public SearchPresenterImpl(MealsRepository mealsRepository, SearchView searchView) {
+    public MealsCountryPresenterImpl(MealsRepository mealsRepository, MealsCountryView mealsCountryView) {
         this.mealsRepository = mealsRepository;
-        this.searchView = searchView;
-    }
-
-
-    @Override
-    public void getIngredientsPresenter() {
-        mealsRepository.getIngredients(this);
+        this.mealsCountryView = mealsCountryView;
     }
 
     @Override
-    public void getCountriesPresenter() {
-        mealsRepository.getCountries(this);
-    }
-
-    @Override
-    public void getMealPresenter(String name) {
-        mealsRepository.getMeal(this, name);
+    public void getMealsFromCountryPresenter(String country) {
+        mealsRepository.getMealsFromCountry(this , country);
     }
 
     @Override
     public void addFavMeal(Meal meal) {
         mealsRepository.insertMeal(meal);
-    }
-
-    @Override
-    public void addPlanMeal(Meal meal) {
-
     }
 
     @Override
@@ -63,22 +46,22 @@ public class SearchPresenterImpl implements  SearchPresenter , NetworkCallBack  
 
     @Override
     public void onSuccessCountries(List<Country> countries) {
-        searchView.ShowCountries(countries);
+
     }
 
     @Override
     public void onSuccessIngredients(List<Ingredient> ingredients) {
-        searchView.ShowIngredients(ingredients);
+
     }
 
     @Override
     public void onSuccessMealsFromCountry(List<Meal> meals) {
-
+        mealsCountryView.showMealsOfCountry(meals);
     }
 
     @Override
     public void onSuccessSearchMeal(List<Meal> meals) {
-        searchView.showMeal(meals);
+
     }
 
     @Override

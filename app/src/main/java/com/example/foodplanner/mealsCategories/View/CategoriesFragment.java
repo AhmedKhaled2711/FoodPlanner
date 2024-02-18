@@ -44,6 +44,7 @@ public class CategoriesFragment extends Fragment implements CategoriesView , OnA
          recyclerView = view.findViewById(R.id.rv_Categories);
          //to Receive data
          keyFromHome = CategoriesFragmentArgs.fromBundle(getArguments()).getCategoryName();
+
          toolbar = view.findViewById(R.id.toolbar);
          toolbar.setTitle(keyFromHome + "Categories");
          toolbar.setNavigationIcon(R.drawable.arrow_back);
@@ -56,6 +57,7 @@ public class CategoriesFragment extends Fragment implements CategoriesView , OnA
         //Toast.makeText(getContext(), "Item After "+temp, Toast.LENGTH_SHORT).show();
         categoriesPresenter = new CategoriesPresenterImpl(this , MealsRepositoryImpl.getInstance
                 (MealsRemoteDataSourceImpl.getInstance()));
+
         categoriesPresenter.getMealsFromCategoriesPresenter(keyFromHome);
 
         linearManager = new LinearLayoutManager(view.getContext());

@@ -21,17 +21,29 @@
         android:id="@+id/searchFragment"
         android:name="com.example.foodplanner.Search.View.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_mealsOfCountery"
+            app:destination="@id/mealsOfCountery" />
+    </fragment>
     <fragment
         android:id="@+id/planFragment"
         android:name="com.example.foodplanner.Plan.View.PlanFragment"
         android:label="fragment_plan"
-        tools:layout="@layout/fragment_plan" />
+        tools:layout="@layout/fragment_plan" >
+        <action
+            android:id="@+id/action_planFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.foodplanner.Favorite.View.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_planFragment"
+            app:destination="@id/planFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.example.foodplanner.mealsCategories.View.CategoriesFragment"
@@ -49,5 +61,14 @@
         <argument
             android:name="meal"
             app:argType="com.example.foodplanner.Model.Meal" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealsOfCountery"
+        android:name="com.example.foodplanner.MealsOfCountry.View.MealsOfCountery"
+        android:label="fragment_meals_of_countery"
+        tools:layout="@layout/fragment_meals_of_countery" >
+        <argument
+            android:name="countryMeals"
+            app:argType="string" />
     </fragment>
 </navigation>

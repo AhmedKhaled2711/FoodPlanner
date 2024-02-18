@@ -54,6 +54,16 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
 
     }
 
+    @Override
+    public void onSuccessMealsFromCountry(List<Meal> meals) {
+
+    }
+
+    @Override
+    public void onSuccessSearchMeal(List<Meal> meals) {
+
+    }
+
 
     @Override
     public void onFail(String err) {

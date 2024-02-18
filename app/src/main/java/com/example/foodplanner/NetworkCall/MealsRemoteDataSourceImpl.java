@@ -169,4 +169,55 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
             }
         });
     }
+
+    @Override
+    public void makeNetworkCall_getMealsOfCountry(NetworkCallBack networkCallBack, String CountryName) {
+        Log.i("TAG", "response.isSuccessful: Last categoryName "+CountryName);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(JSON_URL_RETROFIT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+        MealService mealService = retrofit.create(MealService.class);
+        mealService.getMealsOfCountry(CountryName).enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.i("TAG", "response.isSuccessful: networkCallBack.onSuccessMealsFromCountry ");
+                    networkCallBack.onSuccessMealsFromCountry(response.body().meals);
+                }
+            }
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                Log.i("TAG", "onFailure: ");
+                networkCallBack.onFail(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void makeNetworkCall_SearchByName(NetworkCallBack networkCallBack, String mealName) {
+        Log.i("TAG", "response.isSuccessful: search about "+mealName);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(JSON_URL_RETROFIT)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+        MealService mealService = retrofit.create(MealService.class);
+        mealService.searchByName(mealName).enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.i("TAG", "response.isSuccessful: return Meal");
+                    networkCallBack.onSuccessSearchMeal(response.body().meals);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                Log.i("TAG", "onFailure: ");
+                networkCallBack.onFail(t.getMessage());
+            }
+        });
+    }
 }

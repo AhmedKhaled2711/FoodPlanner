@@ -17,6 +17,7 @@ import com.example.foodplanner.home.View.HomeFragmentAdapter;
 import java.util.List;
 
 public class MealFragmentIngredientsAdapter extends RecyclerView.Adapter<MealFragmentIngredientsAdapter.ViewHolder> {
+    private String urlImage = "https://www.themealdb.com/images/ingredients/";
     private List<String> ingredientNames;
     private List<String> ingredientMeasures;
     private Context context;
@@ -45,7 +46,7 @@ public class MealFragmentIngredientsAdapter extends RecyclerView.Adapter<MealFra
     public void onBindViewHolder(@NonNull MealFragmentIngredientsAdapter.ViewHolder holder, int position) {
         String currentIngredientName = ingredientNames.get(position);
         String currentIngredientMeasure = ingredientMeasures.get(position);
-        Glide.with(context).load(currentIngredientName).into(holder.iv_ingredient);
+        Glide.with(context).load(urlImage+currentIngredientName+".png").into(holder.iv_ingredient);
         holder.tv_name.setText(currentIngredientName);
         holder.tv_measure.setText(currentIngredientMeasure);
     }

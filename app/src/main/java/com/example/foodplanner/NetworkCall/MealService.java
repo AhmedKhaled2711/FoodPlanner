@@ -5,6 +5,7 @@ import com.example.foodplanner.Model.CountryResponse;
 import com.example.foodplanner.Model.IngredientResponse;
 import com.example.foodplanner.Model.MealResponse;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -26,6 +27,14 @@ public interface MealService {
 
     @GET("list.php?i=list")
     Call<IngredientResponse> getIngredients();
+
+    @GET("filter.php")
+    Call<MealResponse> getMealsOfCountry(@Query("a")String area);
+
+    @GET("search.php")
+    Call<MealResponse> searchByName(@Query("s") String mealName);
+
+
 
 
 }

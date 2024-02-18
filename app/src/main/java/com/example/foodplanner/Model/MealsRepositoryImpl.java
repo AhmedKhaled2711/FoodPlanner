@@ -72,6 +72,16 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
+    public void getMealsFromCountry(NetworkCallBack networkCallBack, String countryName) {
+        mealsRemoteDataSource.makeNetworkCall_getMealsOfCountry(networkCallBack,countryName);
+    }
+
+    @Override
+    public void getMeal(NetworkCallBack networkCallBack, String MealName) {
+        mealsRemoteDataSource.makeNetworkCall_SearchByName(networkCallBack ,MealName);
+    }
+
+    @Override
     public void insertMeal(Meal meal) {
         mealsLocalDataSource.insert(meal);
     }
