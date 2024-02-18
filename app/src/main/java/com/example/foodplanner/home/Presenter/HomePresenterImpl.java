@@ -2,18 +2,12 @@ package com.example.foodplanner.home.Presenter;
 
 import android.util.Log;
 
-import com.example.foodplanner.Model.Category;
 import com.example.foodplanner.Model.CategoryResponse;
-import com.example.foodplanner.Model.Country;
-import com.example.foodplanner.Model.Ingredient;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealResponse;
 import com.example.foodplanner.Model.MealsRepository;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
-import com.example.foodplanner.NetworkCall.NetworkCallBack;
 import com.example.foodplanner.home.View.HomeView;
-
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -21,7 +15,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
+public class HomePresenterImpl implements HomePresenter  {
     HomeView homeView ;
     MealsRepository mealsRepository ;
     public  HomePresenterImpl (HomeView homeView , MealsRepositoryImpl mealsRepositoryImpl)
@@ -30,46 +24,6 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
         this.mealsRepository = mealsRepositoryImpl ;
     }
 
-    @Override
-    public void onSuccess(List<Meal> meals) {
-        homeView.showRandomMeal(meals);
-    }
-
-    @Override
-    public void onSuccess_getCategories(List<Category> categories) {
-        homeView.showCategories(categories);
-    }
-
-    @Override
-    public void onSuccessMealFromCategories(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccessCountries(List<Country> countries) {
-
-    }
-
-    @Override
-    public void onSuccessIngredients(List<Ingredient> ingredients) {
-
-    }
-
-    @Override
-    public void onSuccessMealsFromCountry(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccessSearchMeal(List<Meal> meals) {
-
-    }
-
-
-    @Override
-    public void onFail(String err) {
-
-    }
 
     @Override
     public void getRandomMealPresenter() {

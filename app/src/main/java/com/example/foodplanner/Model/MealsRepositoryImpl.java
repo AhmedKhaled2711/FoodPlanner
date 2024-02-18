@@ -1,11 +1,7 @@
 package com.example.foodplanner.Model;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.foodplanner.DataBase.MealsLocalDataSource;
 import com.example.foodplanner.NetworkCall.MealsRemoteDataSource;
-import com.example.foodplanner.NetworkCall.MealsRemoteDataSourceImpl;
-import com.example.foodplanner.NetworkCall.NetworkCallBack;
 
 import java.util.List;
 

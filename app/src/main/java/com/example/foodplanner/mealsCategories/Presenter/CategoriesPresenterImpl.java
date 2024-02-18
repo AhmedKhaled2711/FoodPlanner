@@ -7,7 +7,6 @@ import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealResponse;
 import com.example.foodplanner.Model.MealsRepository;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
-import com.example.foodplanner.NetworkCall.NetworkCallBack;
 import com.example.foodplanner.mealsCategories.View.CategoriesView;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public class CategoriesPresenterImpl implements CategoriesPresenter , NetworkCallBack {
+public class CategoriesPresenterImpl implements CategoriesPresenter  {
     MealsRepository mealsRepository ;
     CategoriesView categoriesView ;
 
@@ -28,45 +27,6 @@ public class CategoriesPresenterImpl implements CategoriesPresenter , NetworkCal
         this.mealsRepository = mealsRepositoryImpl ;
     }
 
-    @Override
-    public void onSuccess(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccess_getCategories(List<Category> categories) {
-
-    }
-
-    @Override
-    public void onSuccessMealFromCategories(List<Meal> meals) {
-        categoriesView.showMealsOfCategory(meals);
-    }
-
-    @Override
-    public void onSuccessCountries(List<Country> countries) {
-
-    }
-
-    @Override
-    public void onSuccessIngredients(List<Ingredient> ingredients) {
-
-    }
-
-    @Override
-    public void onSuccessMealsFromCountry(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccessSearchMeal(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onFail(String err) {
-
-    }
 
     @Override
     public void getMealsFromCategoriesPresenter(String category) {

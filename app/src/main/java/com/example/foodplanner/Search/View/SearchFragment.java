@@ -270,64 +270,52 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
         }
 
 
-        tv_card_meal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SearchFragmentDirections.ActionSearchFragmentToMealFragment actionSearchFragmentToMealFragment
-                        = SearchFragmentDirections.actionSearchFragmentToMealFragment(serachMeal);
-                Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
-            }
+        tv_card_meal.setOnClickListener(v -> {
+            SearchFragmentDirections.ActionSearchFragmentToMealFragment actionSearchFragmentToMealFragment
+                    = SearchFragmentDirections.actionSearchFragmentToMealFragment(serachMeal);
+            Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
         });
 
-        iv_card_meal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SearchFragmentDirections.ActionSearchFragmentToMealFragment actionSearchFragmentToMealFragment
-                        = SearchFragmentDirections.actionSearchFragmentToMealFragment(serachMeal);
-                Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
+        iv_card_meal.setOnClickListener(v -> {
+            SearchFragmentDirections.ActionSearchFragmentToMealFragment actionSearchFragmentToMealFragment
+                    = SearchFragmentDirections.actionSearchFragmentToMealFragment(serachMeal);
+            Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
 
-            }
         });
-        btnFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFavoriteClick(serachMeal);
-                Toast.makeText(getContext(), serachMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();
-            }
+        btnFavorite.setOnClickListener(v -> {
+            onFavoriteClick(serachMeal);
+            Toast.makeText(getContext(), serachMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();
         });
 
-        btnPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String keyFromPlan = SearchFragmentArgs.fromBundle(getArguments()).getNameOfDay();
-                switch (keyFromPlan) {
-                    case "Monday":
-                        sharedViewModel.setSelectedItemMonday(serachMeal);
-                        break;
-                    case "Tuesday":
-                        sharedViewModel.setSelectedItemTuesday(serachMeal);
-                        break;
-                    case "Wednesday":
-                        sharedViewModel.setSelectedItemWednesday(serachMeal);
-                        break;
-                    case "Thursday":
-                        sharedViewModel.setSelectedItemThursday(serachMeal);
-                        break;
-                    case "Friday":
-                        sharedViewModel.setSelectedItemFriday(serachMeal);
-                        break;
-                    case "Saturday":
-                        sharedViewModel.setSelectedItemSaturday(serachMeal);
-                        break;
-                    case "Sunday":
-                        sharedViewModel.setSelectedItemSunday(serachMeal);
-                        break;
-                    default:
-                        // Handle invalid day of the week (optional)
-                        break;
-                }
-                Navigation.findNavController(getView()).navigateUp();
+        btnPlan.setOnClickListener(v -> {
+            String keyFromPlan = SearchFragmentArgs.fromBundle(getArguments()).getNameOfDay();
+            switch (keyFromPlan) {
+                case "Monday":
+                    sharedViewModel.setSelectedItemMonday(serachMeal);
+                    break;
+                case "Tuesday":
+                    sharedViewModel.setSelectedItemTuesday(serachMeal);
+                    break;
+                case "Wednesday":
+                    sharedViewModel.setSelectedItemWednesday(serachMeal);
+                    break;
+                case "Thursday":
+                    sharedViewModel.setSelectedItemThursday(serachMeal);
+                    break;
+                case "Friday":
+                    sharedViewModel.setSelectedItemFriday(serachMeal);
+                    break;
+                case "Saturday":
+                    sharedViewModel.setSelectedItemSaturday(serachMeal);
+                    break;
+                case "Sunday":
+                    sharedViewModel.setSelectedItemSunday(serachMeal);
+                    break;
+                default:
+                    // Handle invalid day of the week (optional)
+                    break;
             }
+            Navigation.findNavController(getView()).navigateUp();
         });
 
 

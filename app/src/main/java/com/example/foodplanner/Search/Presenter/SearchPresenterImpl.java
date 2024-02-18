@@ -8,7 +8,6 @@ import com.example.foodplanner.Model.IngredientResponse;
 import com.example.foodplanner.Model.Meal;
 import com.example.foodplanner.Model.MealResponse;
 import com.example.foodplanner.Model.MealsRepository;
-import com.example.foodplanner.NetworkCall.NetworkCallBack;
 import com.example.foodplanner.Search.View.SearchView;
 
 import java.util.List;
@@ -18,9 +17,8 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SearchPresenterImpl implements  SearchPresenter , NetworkCallBack  {
+public class SearchPresenterImpl implements  SearchPresenter   {
 
     MealsRepository mealsRepository ;
     SearchView searchView ;
@@ -123,43 +121,4 @@ public class SearchPresenterImpl implements  SearchPresenter , NetworkCallBack  
 
     }
 
-    @Override
-    public void onSuccess(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccess_getCategories(List<Category> categories) {
-
-    }
-
-    @Override
-    public void onSuccessMealFromCategories(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccessCountries(List<Country> countries) {
-        searchView.ShowCountries(countries);
-    }
-
-    @Override
-    public void onSuccessIngredients(List<Ingredient> ingredients) {
-        searchView.ShowIngredients(ingredients);
-    }
-
-    @Override
-    public void onSuccessMealsFromCountry(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccessSearchMeal(List<Meal> meals) {
-        searchView.showMeal(meals);
-    }
-
-    @Override
-    public void onFail(String err) {
-
-    }
 }
