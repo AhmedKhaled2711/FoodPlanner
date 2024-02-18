@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ import com.example.foodplanner.Search.Adapter.CountryAdapter;
 import com.example.foodplanner.Search.Adapter.IngredientsAdapter;
 import com.example.foodplanner.Search.Presenter.SearchPresenter;
 import com.example.foodplanner.Search.Presenter.SearchPresenterImpl;
+import com.example.foodplanner.SharedViewModel;
 import com.example.foodplanner.home.View.HomeFragmentDirections;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -56,7 +58,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
     RecyclerView rv_Ingredient;
     LinearLayoutManager linearManager_Country ;
     LinearLayoutManager linearManager_Ingredient ;
-
+    private SharedViewModel sharedViewModel;
     SearchPresenter searchPresenter ;
     CountryAdapter countryAdapter ;
     CountryAdapter countryAdapterAfter ;
@@ -64,7 +66,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
     ChipGroup chipGroup ;
     CardView cardView ;
     Chip chipCountry , chipMeals ;
-    Button btnFavorite ;
+    Button btnFavorite , btnPlan  ;
     TextView tv_country;
     ImageView iv_card_meal ;
     TextView tv_ingredients , meal_view , tv_card_meal;
@@ -97,6 +99,8 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
         iv_card_meal =  view.findViewById(R.id.iv_card_meal);
         tv_card_meal =  view.findViewById(R.id.tv_card_meal);
         btnFavorite = view.findViewById(R.id.btn_Card_save);
+        btnPlan = view.findViewById(R.id.btn_Card_plan);
+
 
 
         searchPresenter = new SearchPresenterImpl(MealsRepositoryImpl.getInstance(MealsRemoteDataSourceImpl.getInstance() ,
@@ -231,7 +235,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
             }
         });
 
-
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
     }
 
@@ -255,9 +259,35 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
     @Override
     public void showMeal(List<Meal> meals) {
         Meal serachMeal = meals.get(0);
-        tv_card_meal.setText(serachMeal.getStrMeal());
-        Glide.with(this).load(serachMeal.getStrMealThumb()).into(iv_card_meal);
+        if(serachMeal !=null)
+        {
+            tv_card_meal.setText(serachMeal.getStrMeal());
+            Glide.with(this).load(serachMeal.getStrMealThumb()).into(iv_card_meal);
+        }
+        else
+        {
+            Toast.makeText(getContext(), "Meal Not Found", Toast.LENGTH_SHORT).show();
+        }
 
+
+        tv_card_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchFragmentDirections.ActionSearchFragmentToMealFragment actionSearchFragmentToMealFragment
+                        = SearchFragmentDirections.actionSearchFragmentToMealFragment(serachMeal);
+                Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
+            }
+        });
+
+        iv_card_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchFragmentDirections.ActionSearchFragmentToMealFragment actionSearchFragmentToMealFragment
+                        = SearchFragmentDirections.actionSearchFragmentToMealFragment(serachMeal);
+                Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
+
+            }
+        });
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,6 +295,41 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
                 Toast.makeText(getContext(), serachMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyFromPlan = SearchFragmentArgs.fromBundle(getArguments()).getNameOfDay();
+                switch (keyFromPlan) {
+                    case "Monday":
+                        sharedViewModel.setSelectedItemMonday(serachMeal);
+                        break;
+                    case "Tuesday":
+                        sharedViewModel.setSelectedItemTuesday(serachMeal);
+                        break;
+                    case "Wednesday":
+                        sharedViewModel.setSelectedItemWednesday(serachMeal);
+                        break;
+                    case "Thursday":
+                        sharedViewModel.setSelectedItemThursday(serachMeal);
+                        break;
+                    case "Friday":
+                        sharedViewModel.setSelectedItemFriday(serachMeal);
+                        break;
+                    case "Saturday":
+                        sharedViewModel.setSelectedItemSaturday(serachMeal);
+                        break;
+                    case "Sunday":
+                        sharedViewModel.setSelectedItemSunday(serachMeal);
+                        break;
+                    default:
+                        // Handle invalid day of the week (optional)
+                        break;
+                }
+                Navigation.findNavController(getView()).navigateUp();
+            }
+        });
+
 
     }
 
@@ -281,7 +346,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
 
     @Override
     public void onItemClick(String item) {
-        Toast.makeText(getActivity(), "YA RAB "+item, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "YA RAB "+item, Toast.LENGTH_SHORT).show();
 
         SearchFragmentDirections.ActionSearchFragmentToMealsOfCountery action =
                 SearchFragmentDirections.actionSearchFragmentToMealsOfCountery(item);

@@ -20,6 +20,7 @@ public class MealFragmentIngredientsAdapter extends RecyclerView.Adapter<MealFra
     private String urlImage = "https://www.themealdb.com/images/ingredients/";
     private List<String> ingredientNames;
     private List<String> ingredientMeasures;
+
     private Context context;
 
     public MealFragmentIngredientsAdapter(Context context, List<String> ingredientNames, List<String> ingredientMeasures) {
@@ -67,4 +68,13 @@ public class MealFragmentIngredientsAdapter extends RecyclerView.Adapter<MealFra
             iv_ingredient = itemView.findViewById(R.id.iv_ingredient);
         }
     }
+
+    /*
+    public interface OnItemClickListenerIngredients {
+        void onItemClick(String item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListenerIngredients listener) {
+        mListener = listener;
+    }*/
 }

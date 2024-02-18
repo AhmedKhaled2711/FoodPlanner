@@ -25,25 +25,33 @@
         <action
             android:id="@+id/action_searchFragment_to_mealsOfCountery"
             app:destination="@id/mealsOfCountery" />
+        <action
+            android:id="@+id/action_searchFragment_to_mealFragment"
+            app:destination="@id/mealFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_planFragment"
+            app:destination="@id/planFragment" />
+        <argument
+            android:name="NameOfDay"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/planFragment"
         android:name="com.example.foodplanner.Plan.View.PlanFragment"
         android:label="fragment_plan"
         tools:layout="@layout/fragment_plan" >
+        <argument
+            android:name="MealObject"
+            app:argType="com.example.foodplanner.Model.Meal" />
         <action
-            android:id="@+id/action_planFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            android:id="@+id/action_planFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.foodplanner.Favorite.View.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
-        <action
-            android:id="@+id/action_favoriteFragment_to_planFragment"
-            app:destination="@id/planFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.example.foodplanner.mealsCategories.View.CategoriesFragment"

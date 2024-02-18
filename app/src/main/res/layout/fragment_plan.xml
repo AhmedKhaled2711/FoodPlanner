@@ -34,12 +34,14 @@
 
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:id="@+id/Saturday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
@@ -62,12 +64,15 @@
                 android:textStyle="bold"
 
                 />
-            <androidx.recyclerview.widget.RecyclerView
+
+            <TextView
                 android:id="@+id/Sunday"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider2"
@@ -90,12 +95,14 @@
                 android:textStyle="bold"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:id="@+id/Monday"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider3"
@@ -118,12 +125,14 @@
                 android:textStyle="bold"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:id="@+id/Tuesday"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider4"
@@ -146,12 +155,14 @@
                 android:textStyle="bold"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:id="@+id/Wednesday"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider5"
@@ -174,12 +185,14 @@
                 android:textStyle="bold"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:id="@+id/Thursday"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider6"
@@ -202,12 +215,14 @@
                 android:textStyle="bold"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:id="@+id/Friday"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider7"

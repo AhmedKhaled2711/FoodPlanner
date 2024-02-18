@@ -1,5 +1,8 @@
 package com.example.foodplanner.SignUp.View;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,7 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class SignUpFragment extends Fragment {
-
+    SharedPreferences sh ;
+    public static final String PREFS_NAME = "LoginPrefs";
     private EditText mail , password , confirmPassword ;
     private Button btn_signUp , btn_google ,btn_facebook ;
     private FirebaseAuth firebaseAuth ;

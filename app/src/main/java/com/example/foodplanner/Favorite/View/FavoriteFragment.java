@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.example.foodplanner.Model.MealsRepository;
 import com.example.foodplanner.Model.MealsRepositoryImpl;
 import com.example.foodplanner.NetworkCall.MealsRemoteDataSourceImpl;
 import com.example.foodplanner.R;
+import com.example.foodplanner.SharedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ public class FavoriteFragment extends Fragment implements FavoriteView , OnRemov
     FavoriteAdapter favoriteAdapter ;
     RecyclerView recyclerView;
     LinearLayoutManager linearManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +64,8 @@ public class FavoriteFragment extends Fragment implements FavoriteView , OnRemov
         recyclerView.setAdapter(favoriteAdapter);
 
         showData(favoritePresenter.getStoredDataDB());
+
+
 
     }
 
