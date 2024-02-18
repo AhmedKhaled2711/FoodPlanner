@@ -69,13 +69,17 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
     }
 
     @Override
-    public void makeNetworkCall_getCategories(NetworkCallBack networkCallBack) {
+    public Observable<CategoryResponse> makeNetworkCall_getCategories() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
+        Observable<CategoryResponse> observable = mealService.getCategories() ;
+        return observable.subscribeOn(Schedulers.io());
+
+        /*
        mealService.getCategories().enqueue(new Callback<CategoryResponse>() {
            @Override
            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
@@ -90,11 +94,11 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                Log.i("TAG", "onFailure: ");
                networkCallBack.onFail(t.getMessage());
            }
-       });
+       });*/
     }
 
     @Override
-    public void makeNetworkCall_getMealFromCategories(NetworkCallBack networkCallBack , String categoryName) {
+    public Observable<MealResponse> makeNetworkCall_getMealFromCategories(String categoryName) {
         Log.i("TAG", "response.isSuccessful: Last categoryName "+categoryName);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
@@ -102,6 +106,10 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
+        Observable<MealResponse> observable = mealService.getMealByCategory(categoryName);
+        return observable.subscribeOn(Schedulers.io());
+
+        /*
         mealService.getMealByCategory(categoryName).enqueue(new Callback<MealResponse>() {
             @Override
             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
@@ -115,18 +123,23 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 Log.i("TAG", "onFailure: ");
                 networkCallBack.onFail(t.getMessage());
             }
-        });
+        });*/
 
     }
 
     @Override
-    public void makeNetworkCall_getCountries(NetworkCallBack networkCallBack) {
+    public Observable<CountryResponse> makeNetworkCall_getCountries() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
+
+        Observable<CountryResponse> observable = mealService.getCountries();
+        return observable.subscribeOn(Schedulers.io());
+
+        /*
         mealService.getCountries().enqueue(new Callback<CountryResponse>() {
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
@@ -144,17 +157,21 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 Log.i("TAG", "onFailure: ");
                 networkCallBack.onFail(t.getMessage());
             }
-        });
+        });*/
     }
 
     @Override
-    public void makeNetworkCall_getIngredients(NetworkCallBack networkCallBack) {
+    public Observable<IngredientResponse> makeNetworkCall_getIngredients() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
+        Observable<IngredientResponse> observable = mealService.getIngredients();
+        return observable.subscribeOn(Schedulers.io());
+
+        /*
         mealService.getIngredients().enqueue(new Callback<IngredientResponse>() {
             @Override
             public void onResponse(Call<IngredientResponse> call, Response<IngredientResponse> response) {
@@ -167,11 +184,11 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 Log.i("TAG", "onFailure: ");
                 networkCallBack.onFail(t.getMessage());
             }
-        });
+        });*/
     }
 
     @Override
-    public void makeNetworkCall_getMealsOfCountry(NetworkCallBack networkCallBack, String CountryName) {
+    public Observable<MealResponse>  makeNetworkCall_getMealsOfCountry(  String CountryName) {
         Log.i("TAG", "response.isSuccessful: Last categoryName "+CountryName);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
@@ -179,6 +196,10 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
+        Observable<MealResponse>  observable = mealService.getMealsOfCountry(CountryName);
+        return observable.subscribeOn(Schedulers.io());
+
+        /*
         mealService.getMealsOfCountry(CountryName).enqueue(new Callback<MealResponse>() {
             @Override
             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
@@ -192,11 +213,11 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 Log.i("TAG", "onFailure: ");
                 networkCallBack.onFail(t.getMessage());
             }
-        });
+        });*/
     }
 
     @Override
-    public void makeNetworkCall_SearchByName(NetworkCallBack networkCallBack, String mealName) {
+    public Observable<MealResponse> makeNetworkCall_SearchByName(String mealName) {
         Log.i("TAG", "response.isSuccessful: search about "+mealName);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(JSON_URL_RETROFIT)
@@ -204,6 +225,10 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         MealService mealService = retrofit.create(MealService.class);
+        Observable<MealResponse> observable = mealService.searchByName(mealName);
+        return observable.subscribeOn(Schedulers.io());
+
+        /*
         mealService.searchByName(mealName).enqueue(new Callback<MealResponse>() {
             @Override
             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
@@ -218,6 +243,6 @@ public class MealsRemoteDataSourceImpl implements MealsRemoteDataSource{
                 Log.i("TAG", "onFailure: ");
                 networkCallBack.onFail(t.getMessage());
             }
-        });
+        });*/
     }
 }

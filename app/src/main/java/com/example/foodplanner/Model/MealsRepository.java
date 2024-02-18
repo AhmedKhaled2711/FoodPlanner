@@ -13,20 +13,20 @@ public interface MealsRepository {
 
     //void getRandomMeal(NetworkCallBack networkCallBack);
     Observable<MealResponse> getRandomMeal();
-    void getCategories(NetworkCallBack networkCallBack);
+    Observable<CategoryResponse> getCategories();
 
-    void getMealsFromCategories (NetworkCallBack networkCallBack , String categoryName);
+    Observable<MealResponse> getMealsFromCategories (String categoryName);
 
-    void getMealsFromCountry (NetworkCallBack networkCallBack , String countryName);
+    Observable<MealResponse> getMealsFromCountry (String countryName);
 
-    void getMeal (NetworkCallBack networkCallBack , String mealName);
+    Observable<MealResponse> getMeal (String mealName);
     void insertMeal(Meal meal);
     LiveData<List<Meal>> getStoredMeals();
     public void deleteMeal(Meal meal);
 
-    void getCountries(NetworkCallBack networkCallBack);
+    Observable<CountryResponse> getCountries();
 
-    void getIngredients(NetworkCallBack networkCallBack);
+    Observable<IngredientResponse> getIngredients();
 
 
 }

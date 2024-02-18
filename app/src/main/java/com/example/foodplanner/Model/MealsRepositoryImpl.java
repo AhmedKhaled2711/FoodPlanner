@@ -62,23 +62,23 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
-    public void getCategories(NetworkCallBack networkCallBack) {
-        mealsRemoteDataSource.makeNetworkCall_getCategories(networkCallBack);
+    public  Observable<CategoryResponse> getCategories() {
+        return mealsRemoteDataSource.makeNetworkCall_getCategories();
     }
 
     @Override
-    public void getMealsFromCategories(NetworkCallBack networkCallBack , String categoryName) {
-        mealsRemoteDataSource.makeNetworkCall_getMealFromCategories(networkCallBack , categoryName);
+    public Observable<MealResponse> getMealsFromCategories(String categoryName) {
+        return mealsRemoteDataSource.makeNetworkCall_getMealFromCategories(categoryName);
     }
 
     @Override
-    public void getMealsFromCountry(NetworkCallBack networkCallBack, String countryName) {
-        mealsRemoteDataSource.makeNetworkCall_getMealsOfCountry(networkCallBack,countryName);
+    public Observable<MealResponse> getMealsFromCountry( String countryName) {
+        return  mealsRemoteDataSource.makeNetworkCall_getMealsOfCountry(countryName);
     }
 
     @Override
-    public void getMeal(NetworkCallBack networkCallBack, String MealName) {
-        mealsRemoteDataSource.makeNetworkCall_SearchByName(networkCallBack ,MealName);
+    public Observable<MealResponse> getMeal(String MealName) {
+        return mealsRemoteDataSource.makeNetworkCall_SearchByName(MealName);
     }
 
     @Override
@@ -97,12 +97,12 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
-    public void getCountries(NetworkCallBack networkCallBack) {
-        mealsRemoteDataSource.makeNetworkCall_getCountries(networkCallBack);
+    public Observable<CountryResponse> getCountries() {
+        return  mealsRemoteDataSource.makeNetworkCall_getCountries();
     }
 
     @Override
-    public void getIngredients(NetworkCallBack networkCallBack) {
-        mealsRemoteDataSource.makeNetworkCall_getIngredients(networkCallBack);
+    public Observable<IngredientResponse> getIngredients() {
+        return  mealsRemoteDataSource.makeNetworkCall_getIngredients();
     }
 }

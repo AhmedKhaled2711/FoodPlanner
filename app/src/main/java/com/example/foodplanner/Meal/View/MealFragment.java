@@ -12,11 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.foodplanner.DataBase.MealsLocalDataSourceImpl;
+import com.example.foodplanner.Meal.Presenter.MealPresenter;
+import com.example.foodplanner.Meal.Presenter.MealPresenterImpl;
 import com.example.foodplanner.Model.Meal;
+import com.example.foodplanner.Model.MealsRepositoryImpl;
+import com.example.foodplanner.NetworkCall.MealsRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -27,7 +34,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class MealFragment extends Fragment {
+public class MealFragment extends Fragment implements OnAddClickListenerMeal {
+
+    MealPresenter mealPresenter ;
     private Meal receivedMeal ;
     Toolbar toolbar;
     ImageView ivMeal ;
@@ -35,7 +44,7 @@ public class MealFragment extends Fragment {
     RecyclerView rvIngredients ;
     TextView tvInstructions ;
     LinearLayoutManager linearManager;
-
+    Button btn_add_to_fav ;
     YouTubePlayerView youTubePlayer ;
     MealFragmentIngredientsAdapter mealFragmentIngredientsAdapter ;
 
@@ -54,11 +63,15 @@ public class MealFragment extends Fragment {
         tvNameMeal = view.findViewById(R.id.tv_mealName);
         tvInstructions = view.findViewById(R.id.tv_instructions);
         youTubePlayer = view.findViewById(R.id.youtube_player);
+        btn_add_to_fav = view.findViewById(R.id.btn_add_to_fav);
 
         //to received data from home fragment
         receivedMeal =MealFragmentArgs.fromBundle(getArguments()).getMeal();
         tvNameMeal.setText(receivedMeal.getStrMeal());
         Glide.with(view).load(receivedMeal.getStrMealThumb()).into(ivMeal);
+
+        mealPresenter = new MealPresenterImpl( MealsRepositoryImpl.getInstance(MealsRemoteDataSourceImpl.getInstance() ,
+                MealsLocalDataSourceImpl.getInstance(getContext())));
 
         String []instructions = receivedMeal.getStrInstructions().split("\\.");
         for(int i = 1 ; i<= instructions.length ; i++){
@@ -90,6 +103,14 @@ public class MealFragment extends Fragment {
                 youTubePlayer.cueVideo(url , 0);
             }
         });
+
+        btn_add_to_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFavoriteClick(receivedMeal);
+                Toast.makeText(getContext(), receivedMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private List<String> getIngredients() {
@@ -117,7 +138,6 @@ public class MealFragment extends Fragment {
         ingredients = ingredients.stream()
                 .filter(s -> s != null && !s.isEmpty())
                 .collect(Collectors.toList());
-        System.out.println("Ingredients: " + ingredients);
         return ingredients;
     }
 
@@ -146,7 +166,16 @@ public class MealFragment extends Fragment {
         measures = measures.stream()
                 .filter(s -> s != null && !s.isEmpty())
                 .collect(Collectors.toList());
-        System.out.println("Measures: " + measures);
         return measures;
+    }
+
+    @Override
+    public void onFavoriteClick(Meal meal) {
+        mealPresenter.addFavMeal(meal);
+    }
+
+    @Override
+    public void onPlanClick(Meal meal) {
+
     }
 }

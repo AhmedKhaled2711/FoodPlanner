@@ -3,6 +3,7 @@ package com.example.foodplanner.home.Presenter;
 import android.util.Log;
 
 import com.example.foodplanner.Model.Category;
+import com.example.foodplanner.Model.CategoryResponse;
 import com.example.foodplanner.Model.Country;
 import com.example.foodplanner.Model.Ingredient;
 import com.example.foodplanner.Model.Meal;
@@ -102,7 +103,30 @@ public class HomePresenterImpl implements HomePresenter , NetworkCallBack {
 
     @Override
     public void getCategoriesPresenter() {
-        mealsRepository.getCategories(this);
+        //mealsRepository.getCategories(this);
+        Observable<CategoryResponse> observable = mealsRepository.getCategories();
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CategoryResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        Log.i("TAG", "onSubscribe: getCategories");
+                    }
+
+                    @Override
+                    public void onNext(@NonNull CategoryResponse categoryResponse) {
+                        homeView.showCategories(categoryResponse.categories);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @Override
