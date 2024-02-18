@@ -16,7 +16,7 @@ import io.reactivex.rxjava3.core.Flowable;
 @Dao
 public interface MealDAO {
     @Query("SELECT * FROM MealsTable")
-    LiveData<List<Meal>> getAllMeals() ;
+    Flowable<List<Meal>> getAllMeals() ;
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMeal (Meal meal);

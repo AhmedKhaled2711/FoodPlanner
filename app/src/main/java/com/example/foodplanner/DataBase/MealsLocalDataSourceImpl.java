@@ -11,9 +11,11 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Flowable;
 
 public class MealsLocalDataSourceImpl implements  MealsLocalDataSource{
-    private LiveData<List<Meal>> storedMeals;
+    private Flowable<List<Meal>> storedMeals;
     private static MealsLocalDataSourceImpl connectToMeal = null ;
     private  MealDAO dao ;
+
+   ;
 
     private MealsLocalDataSourceImpl(Context context) {
         AppDataBase db =AppDataBase.getInstance(context.getApplicationContext());
@@ -28,7 +30,7 @@ public class MealsLocalDataSourceImpl implements  MealsLocalDataSource{
         return connectToMeal;
     }
     @Override
-    public LiveData<List<Meal>> getAllMealsData() {
+    public Flowable<List<Meal>> getAllMealsData() {
         return storedMeals;
     }
 

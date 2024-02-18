@@ -1,4 +1,4 @@
-package com.example.foodplanner;
+package com.example.foodplanner.Spalsh.View;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.foodplanner.R;
 
 public class SplashFragment extends Fragment {
     public static int SPLASH_TIMER = 3000 ;

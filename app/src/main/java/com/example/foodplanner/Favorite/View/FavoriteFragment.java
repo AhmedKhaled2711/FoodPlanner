@@ -26,6 +26,10 @@ import com.example.foodplanner.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 
 public class FavoriteFragment extends Fragment implements FavoriteView , OnRemoveClickListener{
     FavoritePresenter favoritePresenter ;
@@ -61,13 +65,14 @@ public class FavoriteFragment extends Fragment implements FavoriteView , OnRemov
     }
 
     @Override
-    public void showData(LiveData<List<Meal>> meals) {
-        meals.observe(getActivity(), new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                favoriteAdapter.setMyList(meals);
-            }
-        });
+    public void showData(Flowable<List<Meal>> meals) {
+        meals.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        productList -> {
+                            favoriteAdapter.setMyList(productList);
+                        }
+                );
     }
 
     @Override

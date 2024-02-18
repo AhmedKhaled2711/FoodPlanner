@@ -6,9 +6,10 @@ import com.example.foodplanner.Model.Meal;
 
 import java.util.List;
 
-public interface FavoritePresenter {
-    public LiveData<List<Meal>> getStoredDataDB();
+import io.reactivex.rxjava3.core.Flowable;
 
+public interface FavoritePresenter {
+    public Flowable<List<Meal>> getStoredDataDB();
     public void removeFavMeal(Meal meal);
 
 }

@@ -9,6 +9,7 @@ import com.example.foodplanner.NetworkCall.NetworkCallBack;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 
 public class MealsRepositoryImpl implements MealsRepository {
@@ -87,7 +88,7 @@ public class MealsRepositoryImpl implements MealsRepository {
     }
 
     @Override
-    public LiveData<List<Meal>> getStoredMeals() {
+    public Flowable<List<Meal>> getStoredMeals() {
         return mealsLocalDataSource.getAllMealsData();
     }
 

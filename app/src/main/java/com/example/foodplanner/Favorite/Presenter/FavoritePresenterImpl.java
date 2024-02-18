@@ -7,6 +7,8 @@ import com.example.foodplanner.Model.MealsRepository;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
+
 public class FavoritePresenterImpl implements FavoritePresenter {
     private MealsRepository mealsRepository ;
 
@@ -15,7 +17,7 @@ public class FavoritePresenterImpl implements FavoritePresenter {
         this.mealsRepository = mealsRepository ;
     }
     @Override
-    public LiveData<List<Meal>> getStoredDataDB() {
+    public Flowable<List<Meal>> getStoredDataDB() {
         return mealsRepository.getStoredMeals();
     }
 

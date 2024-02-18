@@ -1,4 +1,4 @@
-package com.example.foodplanner;
+package com.example.foodplanner.Welcome.View;
 
 import android.os.Bundle;
 
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.foodplanner.R;
 import com.example.foodplanner.home.View.HomeFragment;
 
 

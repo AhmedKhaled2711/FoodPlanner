@@ -9,7 +9,7 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Flowable;
 
 public interface MealsLocalDataSource {
-    LiveData<List<Meal>> getAllMealsData();
+    Flowable<List<Meal>> getAllMealsData();
 
     void insert(Meal meal);
 

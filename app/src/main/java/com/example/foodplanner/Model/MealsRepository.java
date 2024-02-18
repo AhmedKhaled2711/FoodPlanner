@@ -7,6 +7,7 @@ import com.example.foodplanner.NetworkCall.NetworkCallBack;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 
 public interface MealsRepository {
@@ -21,7 +22,7 @@ public interface MealsRepository {
 
     Observable<MealResponse> getMeal (String mealName);
     void insertMeal(Meal meal);
-    LiveData<List<Meal>> getStoredMeals();
+    Flowable<List<Meal>> getStoredMeals();
     public void deleteMeal(Meal meal);
 
     Observable<CountryResponse> getCountries();
