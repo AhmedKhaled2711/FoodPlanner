@@ -43,6 +43,7 @@
                 android:textStyle="bold|italic"
                 android:visibility="gone" />
 
+
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
                 android:layout_width="match_parent"

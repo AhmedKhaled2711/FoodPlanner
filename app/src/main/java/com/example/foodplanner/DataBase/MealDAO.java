@@ -23,6 +23,8 @@ public interface MealDAO {
     @Delete
     void deleteMeal (Meal meal);
 
+    @Query("select * from MealsTable where mealDate= :day")
+    Flowable<List<Meal>> getPlanMeal(String day);
 
 
 }

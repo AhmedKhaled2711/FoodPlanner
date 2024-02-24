@@ -13,15 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.foodplanner.DataBase.MealsLocalDataSourceImpl;
+import com.example.foodplanner.Model.Meal;
+import com.example.foodplanner.Model.MealsRepositoryImpl;
+import com.example.foodplanner.NetworkCall.MealsRemoteDataSourceImpl;
+import com.example.foodplanner.Plan.Presenter.PlanPresenter;
+import com.example.foodplanner.Plan.Presenter.PlanPresenterImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.Model.SharedViewModel;
 
+import java.util.List;
 
-public class PlanFragment extends Fragment {
-    TextView tv_Saturday , tv_Sunday, tv_Saturday_show , tv_Sunday_show ,tv_Monday_show,tv_Tuesday_show,tv_Wednesday_show ,tv_Thursday_show,tv_Friday_show  ;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+
+public class PlanFragment extends Fragment implements PlanView {
+    TextView tv_Saturday , tv_Sunday, tv_Saturday_show , tv_Sunday_show ,tv_Monday_show,
+            tv_Tuesday_show,tv_Wednesday_show ,tv_Thursday_show,tv_Friday_show  ;
     TextView tv_Monday , tv_Tuesday ,tv_Wednesday, tv_Thursday, tv_Friday ;
     private SharedViewModel sharedViewModel;
-    public static final String IS_NAME = "KEY_IS";
+    private PlanPresenter planPresenter ;
     String Monday = "Monday";
     String Tuesday = "Tuesday";
     String Wednesday = "Wednesday";
@@ -57,9 +70,12 @@ public class PlanFragment extends Fragment {
         tv_Thursday_show = view.findViewById(R.id.Thursday);
         tv_Friday_show = view.findViewById(R.id.Friday);
 
+        planPresenter = new PlanPresenterImpl( MealsRepositoryImpl.getInstance(MealsRemoteDataSourceImpl.getInstance() ,
+                MealsLocalDataSourceImpl.getInstance(getContext())) , this);
+
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
-
+        getPlanData();
 
         tv_Saturday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +88,12 @@ public class PlanFragment extends Fragment {
         });
         sharedViewModel.getSelectedItemSaturday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
-                // Update UI with the selected item for Saturday
-                //oast.makeText(getContext(), "Data for Saturday: " + selectedItem.getStrMeal(), Toast.LENGTH_SHORT).show();
-                // Update any other UI elements as needed
+                selectedItem.setMealDate(Saturday);
+
                 tv_Saturday_show.setVisibility(View.VISIBLE);
-                tv_Saturday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Saturday_show.setText(selectedItem.getStrMeal());
+
+                planPresenter.addToPlan(selectedItem);
             }
         });
         tv_Sunday.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +108,11 @@ public class PlanFragment extends Fragment {
 
         sharedViewModel.getSelectedItemSunday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
-                // Update UI with the selected item for Sunday
-                //Toast.makeText(getContext(), "Data for Sunday: " + selectedItem.getStrMeal(), Toast.LENGTH_SHORT).show();
-                // Update any other UI elements as needed
+
+                selectedItem.setMealDate(Sunday);
                 tv_Sunday_show.setVisibility(View.VISIBLE);
-                tv_Sunday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Sunday_show.setText(selectedItem.getStrMeal());
+                planPresenter.addToPlan(selectedItem);
             }
         });
 
@@ -111,9 +128,10 @@ public class PlanFragment extends Fragment {
 
         sharedViewModel.getSelectedItemMonday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
-
+                selectedItem.setMealDate(Monday);
                 tv_Monday_show.setVisibility(View.VISIBLE);
-                tv_Monday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Monday_show.setText(selectedItem.getStrMeal());
+                planPresenter.addToPlan(selectedItem);
             }
         });
 
@@ -129,8 +147,10 @@ public class PlanFragment extends Fragment {
 
         sharedViewModel.getSelectedItemTuesday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
+                selectedItem.setMealDate(Tuesday);
                 tv_Tuesday_show.setVisibility(View.VISIBLE);
-                tv_Tuesday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Tuesday_show.setText(selectedItem.getStrMeal());
+                planPresenter.addToPlan(selectedItem);
             }
         });
 
@@ -146,8 +166,10 @@ public class PlanFragment extends Fragment {
 
         sharedViewModel.getSelectedItemWednesday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
+                selectedItem.setMealDate(Wednesday);
                 tv_Wednesday_show.setVisibility(View.VISIBLE);
-                tv_Wednesday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Wednesday_show.setText(selectedItem.getStrMeal());
+                planPresenter.addToPlan(selectedItem);
             }
         });
 
@@ -163,9 +185,10 @@ public class PlanFragment extends Fragment {
 
         sharedViewModel.getSelectedItemThursday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
-
+                selectedItem.setMealDate(Thursday);
                 tv_Thursday_show.setVisibility(View.VISIBLE);
-                tv_Thursday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Thursday_show.setText(selectedItem.getStrMeal());
+                planPresenter.addToPlan(selectedItem);
             }
         });
 
@@ -174,17 +197,145 @@ public class PlanFragment extends Fragment {
             public void onClick(View v) {
                 // Navigate to searchFragment when Saturday TextView is clicked
                 PlanFragmentDirections.ActionPlanFragmentToSearchFragment action =
-                        PlanFragmentDirections.actionPlanFragmentToSearchFragment(Sunday);
+                        PlanFragmentDirections.actionPlanFragmentToSearchFragment(Friday);
                 Navigation.findNavController(v).navigate(action);
             }
         });
 
         sharedViewModel.getSelectedItemFriday().observe(getViewLifecycleOwner(), selectedItem -> {
             if (selectedItem != null) {
+                selectedItem.setMealDate(Friday);
                 tv_Friday_show.setVisibility(View.VISIBLE);
-                tv_Friday_show.setText(selectedItem.getStrMeal().toString());
+                tv_Friday_show.setText(selectedItem.getStrMeal());
+                planPresenter.addToPlan(selectedItem);
             }
         });
     }
 
+    @Override
+    public void getPlanData() {
+        Flowable<List<Meal>> dataSaturday = planPresenter.getStoredPlan(Saturday);
+        dataSaturday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+                    if(meals.get(0) != null)
+                    {
+                        tv_Saturday_show.setVisibility(View.VISIBLE);
+                        tv_Saturday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Saturday_show.setVisibility(View.VISIBLE);
+                        tv_Saturday_show.setText("No Data Found");
+                    }
+
+                } ,error -> error.printStackTrace());
+
+        Flowable<List<Meal>> dataSunday = planPresenter.getStoredPlan(Sunday);
+        dataSunday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+                    if(meals.get(0) != null)
+                    {
+                        tv_Sunday_show.setVisibility(View.VISIBLE);
+                        tv_Sunday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Sunday_show.setVisibility(View.VISIBLE);
+                        tv_Sunday_show.setText("No Data Found");
+                    }
+                } ,error -> error.printStackTrace());
+
+        Flowable<List<Meal>> dataMonday = planPresenter.getStoredPlan(Monday);
+        dataMonday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+
+                    if(meals.get(0) != null)
+                    {
+                        tv_Monday_show.setVisibility(View.VISIBLE);
+                        tv_Monday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Monday_show.setVisibility(View.VISIBLE);
+                        tv_Monday_show.setText("No Data Found");
+                    }
+                } ,error -> error.printStackTrace());
+
+        Flowable<List<Meal>> dataTuesday = planPresenter.getStoredPlan(Tuesday);
+        dataTuesday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+                    if(meals.get(0) != null)
+                    {
+                        tv_Tuesday_show.setVisibility(View.VISIBLE);
+                        tv_Tuesday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Tuesday_show.setVisibility(View.VISIBLE);
+                        tv_Tuesday_show.setText("No Data Found");
+                    }
+                } ,error -> error.printStackTrace());
+
+        Flowable<List<Meal>> dataWednesday = planPresenter.getStoredPlan(Wednesday);
+        dataWednesday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+
+                    if(meals.get(0) != null)
+                    {
+                        tv_Wednesday_show.setVisibility(View.VISIBLE);
+                        tv_Wednesday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Wednesday_show.setVisibility(View.VISIBLE);
+                        tv_Wednesday_show.setText("No Data Found");
+                    }
+                } ,error -> error.printStackTrace());
+
+        Flowable<List<Meal>> dataThursday = planPresenter.getStoredPlan(Thursday);
+        dataThursday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+
+                    if(meals.get(0) != null)
+                    {
+                        tv_Thursday_show.setVisibility(View.VISIBLE);
+                        tv_Thursday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Thursday_show.setVisibility(View.VISIBLE);
+                        tv_Thursday_show.setText("No Data Found");
+                    }
+                } ,error -> error.printStackTrace());
+
+        Flowable<List<Meal>> dataFriday = planPresenter.getStoredPlan(Friday);
+        dataFriday.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals -> {
+
+                    if(meals.get(0) != null)
+                    {
+                        tv_Friday_show.setVisibility(View.VISIBLE);
+                        tv_Friday_show.setText(meals.get(0).getStrMeal());
+                    }
+                    else {
+                        tv_Friday_show.setVisibility(View.VISIBLE);
+                        tv_Friday_show.setText("No Data Found");
+                    }
+                }
+                ,error -> error.printStackTrace()
+                );
+
+
+    }
+
+    @Override
+    public void removePlanMeal(Meal meal) {
+
+    }
+
+    @Override
+    public void showDataPlanMeal(Flowable<List<Meal>> meals) {
+
+    }
 }

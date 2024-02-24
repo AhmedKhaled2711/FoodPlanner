@@ -282,6 +282,7 @@ public class SearchFragment extends Fragment implements SearchView , CountryAdap
             Navigation.findNavController(v).navigate(actionSearchFragmentToMealFragment);
 
         });
+
         btnFavorite.setOnClickListener(v -> {
             onFavoriteClick(serachMeal);
             Toast.makeText(getContext(), serachMeal.getStrMeal()+" added successfully", Toast.LENGTH_SHORT).show();

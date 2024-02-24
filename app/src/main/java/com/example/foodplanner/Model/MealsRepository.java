@@ -25,5 +25,7 @@ public interface MealsRepository {
 
     Observable<IngredientResponse> getIngredients();
 
+    Flowable<List<Meal>> getPlanedMeal(String day);
+
 
 }

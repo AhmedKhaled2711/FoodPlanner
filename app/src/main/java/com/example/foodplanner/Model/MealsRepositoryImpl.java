@@ -80,7 +80,7 @@ public class MealsRepositoryImpl implements MealsRepository {
 
     @Override
     public void insertMeal(Meal meal) {
-        mealsLocalDataSource.insert(meal);
+        mealsLocalDataSource.insertMeal(meal);
     }
 
     @Override
@@ -101,5 +101,10 @@ public class MealsRepositoryImpl implements MealsRepository {
     @Override
     public Observable<IngredientResponse> getIngredients() {
         return  mealsRemoteDataSource.makeNetworkCall_getIngredients();
+    }
+
+    @Override
+    public Flowable<List<Meal>> getPlanedMeal(String day) {
+        return mealsLocalDataSource.getAllPlanedMeal(day);
     }
 }

@@ -57,9 +57,6 @@ public class HomeFragment extends Fragment implements OnAddClickListener, HomeVi
         tvRandomMeal = view.findViewById(R.id.tv_card_meal);
         btnFavorite = view.findViewById(R.id.btn_Card_save);
         recyclerView = view.findViewById(R.id.rv_home_categories);
-        /*
-        homePresenter = new HomePresenterImpl(this , MealsRepositoryImpl.getInstance
-                (MealsRemoteDataSourceImpl.getInstance()));*/
 
         homePresenter = new HomePresenterImpl(this ,
                 MealsRepositoryImpl.getInstance(MealsRemoteDataSourceImpl.getInstance() ,

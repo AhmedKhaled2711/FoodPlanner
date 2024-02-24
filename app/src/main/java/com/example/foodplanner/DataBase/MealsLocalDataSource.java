@@ -14,4 +14,8 @@ public interface MealsLocalDataSource {
     void insert(Meal meal);
 
     void delete(Meal meal);
+
+    void insertMeal(Meal meal) ;
+
+    Flowable<List<Meal>> getAllPlanedMeal(String day);
 }

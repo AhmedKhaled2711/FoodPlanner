@@ -11,8 +11,8 @@ public class Meal implements Parcelable {
     @PrimaryKey
     @NonNull
     private String idMeal;
-    private String strCreativeCommonsConfirmed; //userEmail;
-    private String dateModified; // dbType;
+    private String strCreativeCommonsConfirmed;
+    private String dateModified;
     private String strMeal;
     private String strDrinkAlternate;
     private String strCategory;
@@ -61,8 +61,12 @@ public class Meal implements Parcelable {
     private String strMeasure18;
     private String strMeasure19;
     private String strMeasure20;
-    private String strSource; //planDate;
+    private String strSource;
     private String strImageSource;
+    private String mealDate;
+
+
+
 
 
     public Meal(){}
@@ -618,5 +622,13 @@ public class Meal implements Parcelable {
 
     public void setStrImageSource(String strImageSource) {
         this.strImageSource = strImageSource;
+    }
+
+    public String getMealDate() {
+        return mealDate;
+    }
+
+    public void setMealDate(String mealDate) {
+        this.mealDate = mealDate;
     }
 }
