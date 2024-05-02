@@ -22,7 +22,6 @@ Food Planner is a native Android mobile application that uses Java Programming L
 <li>Recycler View</li>
 <li>Material Design 2</li>
 <li>Firebase Authentication</li>
-<li>Firebase Firestore</lil>
 <li>Navigation Component</li>
 </ul>
 
